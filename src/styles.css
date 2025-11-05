@@ -339,7 +339,12 @@ body {
   gap: 0.75rem;
 }
 
-.logo {
+.logo-header {
+  width: 4.5rem;
+  height: 4rem; 
+}
+
+.logo-login {
   height: 45px;
   width: 45px;
   background: linear-gradient(135deg, #003553 0%, #004d73 100%);
