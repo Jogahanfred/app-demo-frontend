@@ -40,7 +40,7 @@ export class HeaderComponent {
 
   goToProfile() {
     this.closeDropdown();
-    this.router.navigate(['/perfil']);
+    this.router.navigate(['views/profile']);
   }
 
   goToSettings() {

@@ -1,0 +1,246 @@
+<div class="profile-container">
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-section">
+    <p-breadcrumb
+      [model]="breadcrumbItems"
+      [home]="{ icon: 'pi pi-home' }"
+    ></p-breadcrumb>
+  </div>
+
+  <!-- Layout principal -->
+  <div class="profile-layout">
+    <!-- Card izquierdo - Perfil -->
+    <div class="profile-card">
+      <!-- Header con foto -->
+      <div class="profile-header">
+        <div class="profile-avatar-wrapper">
+          <img
+            [src]="profile.avatar"
+            [alt]="profile.name"
+            class="profile-avatar"
+          />
+          <div class="avatar-badge" *ngIf="profile.verified">
+            <i class="pi pi-check"></i>
+          </div>
+        </div>
+        <h2 class="profile-name">{{ profile.name }}</h2>
+        <p class="profile-role">{{ profile.role }}</p>
+        <div class="profile-rating">
+          <div class="rating-stars">
+            <i
+              class="pi pi-star-fill"
+              *ngFor="let star of getRatingStars()"
+            ></i>
+          </div>
+          <span class="rating-text">{{ profile.rating }}</span>
+          <span style="color: rgba(255, 255, 255, 0.8)"
+            >({{ profile.reviewCount }} valoraciones)</span
+          >
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="profile-actions">
+        <p-button
+          label="Pedir una cita"
+          icon="pi pi-calendar"
+          styleClass="w-full"
+          (onClick)="requestAppointment()"
+        >
+        </p-button>
+        <p-button
+          label="Iniciar video consulta"
+          icon="pi pi-video"
+          styleClass="w-full p-button-secondary"
+          (onClick)="startVideoCall()"
+        >
+        </p-button>
+        <p-button
+          label="Llamar ahora"
+          icon="pi pi-phone"
+          styleClass="w-full p-button-outlined"
+          (onClick)="makeCall()"
+        >
+        </p-button>
+      </div>
+
+      <!-- Información de contacto -->
+      <div class="contact-info">
+        <div class="contact-item" *ngFor="let item of contactInfo">
+          <div class="contact-icon">
+            <i class="pi" [ngClass]="item.icon"></i>
+          </div>
+          <div class="contact-text">
+            <div class="contact-label">{{ item.label }}</div>
+            <div class="contact-value">{{ item.value }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel derecho - Contenido -->
+    <div class="profile-content">
+      <!-- Estadísticas -->
+      <p-card styleClass="stats-card">
+        <div class="stats-grid">
+          <div class="stat-item" *ngFor="let stat of stats">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Tabs -->
+      <div class="card">
+        <p-tabs value="0">
+          <p-tablist>
+            <p-tab value="0">Descripción</p-tab>
+            <p-tab value="1">Educación</p-tab>
+            <p-tab value="2">Experiencia</p-tab>
+            <p-tab value="3">Especialización</p-tab>
+          </p-tablist>
+          <p-tabpanels>
+            <p-tabpanel value="0">
+              <h3 class="section-title">
+                <i class="pi pi-user"></i>
+                Sobre mí
+              </h3>
+              <p class="description-text">{{ description.about }}</p>
+              <br />
+              <p class="description-text">{{ description.details }}</p>
+
+              <br /><br />
+              <h3 class="section-title">
+                <i class="pi pi-building"></i>
+                Información adicional
+              </h3>
+              <div class="info-grid">
+                <div
+                  class="info-item"
+                  *ngFor="let info of description.additionalInfo"
+                >
+                  <span class="info-label">{{ info.label }}</span>
+                  <span class="info-value">{{ info.value }}</span>
+                </div>
+              </div>
+            </p-tabpanel>
+            <p-tabpanel value="1">
+              <h3 class="section-title">
+                <i class="pi pi-graduation-cap"></i>
+                Formación académica
+              </h3>
+              <p-timeline [value]="education" align="left">
+                <ng-template pTemplate="content" let-item>
+                  <div class="timeline-content">
+                    <div class="timeline-title">{{ item.title }}</div>
+                    <div class="timeline-subtitle">{{ item.subtitle }}</div>
+                    <div class="timeline-date">{{ item.date }}</div>
+                  </div>
+                </ng-template>
+              </p-timeline>
+            </p-tabpanel>
+            <p-tabpanel value="2">
+              <h3 class="section-title">
+                <i class="pi pi-briefcase"></i>
+                Trayectoria profesional
+              </h3>
+              <p-timeline [value]="experience" align="left">
+                <ng-template pTemplate="content" let-item>
+                  <div class="timeline-content">
+                    <div class="timeline-title">{{ item.title }}</div>
+                    <div class="timeline-subtitle">{{ item.subtitle }}</div>
+                    <div class="timeline-date">{{ item.date }}</div>
+                  </div>
+                </ng-template>
+              </p-timeline>
+            </p-tabpanel>
+            <p-tabpanel value="3">
+              <h3 class="section-title">
+                <i class="pi pi-heart"></i>
+                Áreas de especialización
+              </h3>
+              <div class="skills-grid">
+                <p-chip
+                  *ngFor="let specialty of specialties"
+                  [label]="specialty"
+                  styleClass="skill-chip"
+                >
+                </p-chip>
+              </div>
+            </p-tabpanel>
+          </p-tabpanels>
+        </p-tabs>
+      </div>
+      <!-- <p-card styleClass="tabs-card">
+        <p-tabView [(activeIndex)]="activeTab" (onChange)="onTabChange($event)"> 
+          <p-tabPanel header="Descripción" leftIcon="pi pi-info-circle">
+            <h3 class="section-title">
+              <i class="pi pi-user"></i>
+              Sobre mí
+            </h3>
+            <p class="description-text">{{ description.about }}</p>
+            <br>
+            <p class="description-text">{{ description.details }}</p>
+
+            <br><br>
+            <h3 class="section-title">
+              <i class="pi pi-building"></i>
+              Información adicional
+            </h3>
+            <div class="info-grid">
+              <div class="info-item" *ngFor="let info of description.additionalInfo">
+                <span class="info-label">{{ info.label }}</span>
+                <span class="info-value">{{ info.value }}</span>
+              </div>
+            </div>
+          </p-tabPanel>
+ 
+          <p-tabPanel header="Educación" leftIcon="pi pi-book">
+            <h3 class="section-title">
+              <i class="pi pi-graduation-cap"></i>
+              Formación académica
+            </h3>
+            <p-timeline [value]="education" align="left">
+              <ng-template pTemplate="content" let-item>
+                <div class="timeline-content">
+                  <div class="timeline-title">{{ item.title }}</div>
+                  <div class="timeline-subtitle">{{ item.subtitle }}</div>
+                  <div class="timeline-date">{{ item.date }}</div>
+                </div>
+              </ng-template>
+            </p-timeline>
+          </p-tabPanel>
+ 
+          <p-tabPanel header="Experiencia" leftIcon="pi pi-briefcase">
+            <h3 class="section-title">
+              <i class="pi pi-briefcase"></i>
+              Trayectoria profesional
+            </h3>
+            <p-timeline [value]="experience" align="left">
+              <ng-template pTemplate="content" let-item>
+                <div class="timeline-content">
+                  <div class="timeline-title">{{ item.title }}</div>
+                  <div class="timeline-subtitle">{{ item.subtitle }}</div>
+                  <div class="timeline-date">{{ item.date }}</div>
+                </div>
+              </ng-template>
+            </p-timeline>
+          </p-tabPanel> 
+
+          <p-tabPanel header="Especialidades" leftIcon="pi pi-star">
+            <h3 class="section-title">
+              <i class="pi pi-heart"></i>
+              Áreas de especialización
+            </h3>
+            <div class="skills-grid">
+              <p-chip *ngFor="let specialty of specialties" 
+                      [label]="specialty" 
+                      styleClass="skill-chip">
+              </p-chip>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </p-card> -->
+    </div>
+  </div>
+</div>
