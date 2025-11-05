@@ -1,0 +1,302 @@
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>
+      <i class="fas fa-plane-departure"></i> Asignación de Misión de Vuelo
+    </h1>
+    <p>
+      Selecciona el piloto, instructor, misión y aeronave para crear una nueva
+      asignación
+    </p>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="main-grid">
+    <!-- Búsqueda de Pilotos -->
+
+    <p-card>
+      <!-- <div class="card"> --> 
+
+      <ng-template #title> 
+         <div class="card-header-left">
+          <i class="fas fa-user-pilot"></i>
+          <h2>Seleccionar Piloto Alumno</h2>
+        </div>
+      </ng-template>
+      <!-- <div class="card-header">
+        <div class="card-header-left">
+          <i class="fas fa-user-pilot"></i>
+          <h2>Seleccionar Piloto Alumno</h2>
+        </div>
+      </div> -->
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="pilotSearch"
+          placeholder="Buscar piloto por nombre o código..."
+          oninput="filterPilots()"
+        />
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div id="pilotsList">
+        <div class="person-card" onclick="selectPilot(1)">
+          <img
+            src="https://i.pravatar.cc/150?img=12"
+            alt="Piloto"
+            class="avatar"
+          />
+          <div class="person-info">
+            <div class="person-name">Cap. Juan Martínez</div>
+            <div class="person-details">
+              <span class="badge pilot">Piloto</span>
+              <span class="badge available">Disponible</span>
+              <br />Código: P-2401 | Horas: 450
+            </div>
+          </div>
+          <button
+            class="btn-view-progress"
+            onclick="event.stopPropagation(); viewProgress(1)"
+          >
+            <i class="fas fa-chart-line"></i> Ver Progreso
+          </button>
+        </div>
+
+        <div class="person-card" onclick="selectPilot(2)">
+          <img
+            src="https://i.pravatar.cc/150?img=23"
+            alt="Piloto"
+            class="avatar"
+          />
+          <div class="person-info">
+            <div class="person-name">Tte. María González</div>
+            <div class="person-details">
+              <span class="badge pilot">Piloto</span>
+              <span class="badge available">Disponible</span>
+              <br />Código: P-2402 | Horas: 320
+            </div>
+          </div>
+          <button
+            class="btn-view-progress"
+            onclick="event.stopPropagation(); viewProgress(2)"
+          >
+            <i class="fas fa-chart-line"></i> Ver Progreso
+          </button>
+        </div>
+
+        <div class="person-card" onclick="selectPilot(3)">
+          <img
+            src="https://i.pravatar.cc/150?img=33"
+            alt="Piloto"
+            class="avatar"
+          />
+          <div class="person-info">
+            <div class="person-name">Alf. Carlos Rodríguez</div>
+            <div class="person-details">
+              <span class="badge pilot">Piloto</span>
+              <span class="badge available">Disponible</span>
+              <br />Código: P-2403 | Horas: 180
+            </div>
+          </div>
+          <button
+            class="btn-view-progress"
+            onclick="event.stopPropagation(); viewProgress(3)"
+          >
+            <i class="fas fa-chart-line"></i> Ver Progreso
+          </button>
+        </div>
+      </div>
+      <!-- </div> -->
+    </p-card>
+
+    <!-- Búsqueda de Instructores -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-left">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <h2>Seleccionar Instructor</h2>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="instructorSearch"
+          placeholder="Buscar instructor..."
+          oninput="filterInstructors()"
+        />
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div id="instructorsList">
+        <div class="person-card" onclick="selectInstructor(1)">
+          <img
+            src="https://i.pravatar.cc/150?img=56"
+            alt="Instructor"
+            class="avatar"
+          />
+          <div class="person-info">
+            <div class="person-name">Cmdt. Roberto Silva</div>
+            <div class="person-details">
+              <span class="badge instructor">Instructor</span>
+              <span class="badge available">Disponible</span>
+              <br />Código: I-101 | Horas: 2,450
+            </div>
+          </div>
+        </div>
+
+        <div class="person-card" onclick="selectInstructor(2)">
+          <img
+            src="https://i.pravatar.cc/150?img=47"
+            alt="Instructor"
+            class="avatar"
+          />
+          <div class="person-info">
+            <div class="person-name">May. Ana Torres</div>
+            <div class="person-details">
+              <span class="badge instructor">Instructor</span>
+              <span class="badge available">Disponible</span>
+              <br />Código: I-102 | Horas: 1,890
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selección de Misión -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <i class="fas fa-bullseye"></i>
+        <h2>Seleccionar Misión</h2>
+      </div>
+    </div>
+
+    <select class="select-dropdown" id="programSelect" onchange="loadPhases()">
+      <option value="">-- Seleccionar Programa --</option>
+      <option value="1">Programa PDI - Formación Básica</option>
+      <option value="2">Programa PDE - Vuelo Avanzado</option>
+      <option value="3">Programa PCT - Combate Táctico</option>
+    </select>
+
+    <select
+      class="select-dropdown"
+      id="phaseSelect"
+      onchange="loadSubphases()"
+      disabled
+    >
+      <option value="">-- Seleccionar Fase --</option>
+    </select>
+
+    <select
+      class="select-dropdown"
+      id="subphaseSelect"
+      onchange="loadMissions()"
+      disabled
+    >
+      <option value="">-- Seleccionar Subfase --</option>
+    </select>
+
+    <div id="missionsList" style="margin-top: 15px"></div>
+  </div>
+
+  <!-- Selección de Aeronave -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <i class="fas fa-plane"></i>
+        <h2>Seleccionar Aeronave</h2>
+      </div>
+    </div>
+
+    <div class="aircraft-grid">
+      <div class="aircraft-card" onclick="selectAircraft(1)">
+        <div class="aircraft-icon">✈️</div>
+        <div class="aircraft-name">T-6 Texan</div>
+        <div class="aircraft-status">Disponible</div>
+      </div>
+
+      <div class="aircraft-card" onclick="selectAircraft(2)">
+        <div class="aircraft-icon">🛩️</div>
+        <div class="aircraft-name">Cessna 172</div>
+        <div class="aircraft-status">Disponible</div>
+      </div>
+
+      <div class="aircraft-card" onclick="selectAircraft(3)">
+        <div class="aircraft-icon">✈️</div>
+        <div class="aircraft-name">T-37 Tweet</div>
+        <div class="aircraft-status">Mantenimiento</div>
+      </div>
+
+      <div class="aircraft-card" onclick="selectAircraft(4)">
+        <div class="aircraft-icon">🛩️</div>
+        <div class="aircraft-name">PA-28 Cherokee</div>
+        <div class="aircraft-status">Disponible</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resumen de Asignación -->
+  <div class="selected-section">
+    <h2><i class="fas fa-clipboard-check"></i> Resumen de Asignación</h2>
+
+    <div class="assignment-grid">
+      <div class="assignment-card" id="selectedPilotCard">
+        <div class="empty-state">
+          <i class="fas fa-user-pilot"></i>
+          <p>Selecciona un piloto alumno</p>
+        </div>
+      </div>
+
+      <div class="assignment-card" id="selectedInstructorCard">
+        <div class="empty-state">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <p>Selecciona un instructor</p>
+        </div>
+      </div>
+
+      <div class="assignment-card" id="selectedMissionCard">
+        <div class="empty-state">
+          <i class="fas fa-bullseye"></i>
+          <p>Selecciona una misión</p>
+        </div>
+      </div>
+
+      <div class="assignment-card" id="selectedAircraftCard">
+        <div class="empty-state">
+          <i class="fas fa-plane"></i>
+          <p>Selecciona una aeronave</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-secondary" onclick="resetForm()">
+        <i class="fas fa-redo"></i> Limpiar
+      </button>
+      <button
+        class="btn btn-primary"
+        id="assignBtn"
+        onclick="assignMission()"
+        disabled
+      >
+        <i class="fas fa-check-circle"></i> Asignar Misión
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Progreso -->
+<div class="modal" id="progressModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2><i class="fas fa-chart-line"></i> Progreso del Alumno</h2>
+      <button class="modal-close" onclick="closeProgressModal()">×</button>
+    </div>
+    <div class="modal-body" id="progressModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>

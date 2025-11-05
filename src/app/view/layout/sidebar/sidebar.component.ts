@@ -32,8 +32,8 @@ export class SidebarComponent implements OnChanges {
   menuItems: MenuItem[] = [
     { label: 'Dashboard', icon: 'pi pi-home', route: 'views/dashboard' },
     { label: 'Usuarios', icon: 'pi pi-users', route: '/usuarios' },
-    { label: 'Reportes', icon: 'pi pi-chart-bar', route: '/reportes' },
-    { label: 'Documentos', icon: 'pi pi-file', route: '/documentos' },
+    { label: 'Registra Mision', icon: 'pi pi-chart-bar', route: 'views/mission-register' },
+    { label: 'Generar Mision', icon: 'pi pi-file', route: 'views/mission-generate' },
     { label: 'Calendario', icon: 'pi pi-calendar', route: '/calendario' },
     { label: 'Mensajes', icon: 'pi pi-envelope', route: '/mensajes' },
     { label: 'Configuración', icon: 'pi pi-cog', route: 'views/configuration' }

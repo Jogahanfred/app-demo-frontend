@@ -1,0 +1,739 @@
+<div class="container">
+  <div class="header">
+    <div class="header-content">
+      <h1>
+        <i class="fas fa-plane-departure"></i> Sistema de Registro de Misiones
+      </h1>
+      <p>Gestión completa de evaluación de misiones y maniobras de vuelo</p>
+    </div>
+  </div>
+
+  <!-- Tabs de Pantallas -->
+  <div class="screen-tabs">
+    <button class="screen-tab active" onclick="switchScreen(1)">
+      <i class="fas fa-cogs"></i> Pantalla 1: Configuración de Misiones
+    </button>
+    <button class="screen-tab" onclick="switchScreen(2)">
+      <i class="fas fa-chart-line"></i> Pantalla 2: Resultados y Evaluación
+    </button>
+  </div>
+
+  <!-- PANTALLA 1 -->
+  <div class="screen-content active" id="screen1">
+    <!-- Leyenda de Calificaciones -->
+    <div class="legend-container">
+      <div class="legend-title">
+        <i class="fas fa-info-circle"></i> Leyenda de Calificaciones - DIRBEP
+      </div>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <div class="legend-badge D">D</div>
+          <div class="legend-text">
+            <div class="legend-code">D - DEMOSTRATIVO</div>
+            <div class="legend-description">Verde agua</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge I">I</div>
+          <div class="legend-text">
+            <div class="legend-code">I - INSUFICIENTE</div>
+            <div class="legend-description">Amarillo</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge R">R</div>
+          <div class="legend-text">
+            <div class="legend-code">R - REGULAR</div>
+            <div class="legend-description">Celeste</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge B">B</div>
+          <div class="legend-text">
+            <div class="legend-code">B - BUENO</div>
+            <div class="legend-description">Azul</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge E">E</div>
+          <div class="legend-text">
+            <div class="legend-code">E - EXCELENTE</div>
+            <div class="legend-description">Verde</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge P">P</div>
+          <div class="legend-text">
+            <div class="legend-code">P - PELIGROSO</div>
+            <div class="legend-description">Rojo</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge NR">NR</div>
+          <div class="legend-text">
+            <div class="legend-code">NR - NO REALIZADO</div>
+            <div class="legend-description">Plomo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(1, 1)">
+          <i class="fas fa-filter"></i> Paso 1: Seleccionar Misión
+        </button>
+        <button class="tab" onclick="switchTab(1, 2)">
+          <i class="fas fa-clone"></i> Paso 2: Generar Misiones
+        </button>
+        <button class="tab" onclick="switchTab(1, 3)">
+          <i class="fas fa-list-check"></i> Paso 3: Asignar Maniobras
+        </button>
+      </div>
+
+      <!-- TAB 1: Selección -->
+      <div class="tab-content active" id="screen1-tab1">
+        <h3 class="section-title">
+          <i class="fas fa-search"></i> Filtrar y Seleccionar Misión
+        </h3>
+
+        <div class="select-group">
+          <div class="select-wrapper">
+            <label><i class="fas fa-folder"></i> Programa</label>
+            <select id="s1-programa" onchange="loadS1Fases()">
+              <option value="">-- Seleccionar Programa --</option>
+              <option value="PDI">PDI - Programa de Instrucción</option>
+              <option value="PDE">PDE - Programa de Especialización</option>
+            </select>
+          </div>
+
+          <div class="select-wrapper">
+            <label><i class="fas fa-layer-group"></i> Fase</label>
+            <select id="s1-fase" onchange="loadS1Subfases()" disabled>
+              <option value="">-- Seleccionar Fase --</option>
+            </select>
+          </div>
+
+          <div class="select-wrapper">
+            <label><i class="fas fa-stream"></i> Subfase</label>
+            <select id="s1-subfase" onchange="loadS1Misiones()" disabled>
+              <option value="">-- Seleccionar Subfase --</option>
+            </select>
+          </div>
+
+          <div class="select-wrapper">
+            <label><i class="fas fa-bullseye"></i> Código de Misión</label>
+            <select id="s1-mision" disabled>
+              <option value="">-- Seleccionar Código --</option>
+              <option value="A">A - Aproximación</option>
+              <option value="CH">CH - Chequeo</option>
+              <option value="TB">TB - Trabajo de Banco</option>
+              <option value="HD">HD - Vuelo de Altura</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="switchTab(1, 2)">
+          Siguiente: Generar Misiones <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- TAB 2: Generar Misiones -->
+      <div class="tab-content" id="screen1-tab2">
+        <h3 class="section-title">
+          <i class="fas fa-plus-circle"></i> Generar Misiones Individuales
+        </h3>
+
+        <div
+          class="select-wrapper"
+          style="max-width: 400px; margin-bottom: 30px"
+        >
+          <label
+            ><i class="fas fa-hashtag"></i> Cantidad de Misiones a
+            Generar</label
+          >
+          <select id="cantidad-misiones" onchange="generateMissionCards()">
+            <option value="">-- Seleccionar Cantidad --</option>
+            <option value="4">4 Misiones</option>
+            <option value="6">6 Misiones</option>
+            <option value="8">8 Misiones</option>
+            <option value="10">10 Misiones</option>
+            <option value="12">12 Misiones</option>
+          </select>
+        </div>
+
+        <div id="mission-cards-container"></div>
+
+        <button
+          class="btn btn-primary"
+          onclick="switchTab(1, 3)"
+          style="margin-top: 30px"
+        >
+          Siguiente: Asignar Maniobras <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- TAB 3: Asignar Maniobras -->
+      <div class="tab-content" id="screen1-tab3">
+        <h3 class="section-title">
+          <i class="fas fa-tasks"></i> Configurar Matriz de Maniobras
+        </h3>
+
+        <p
+          style="
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 15px;
+            font-weight: 600;
+          "
+        >
+          <i class="fas fa-info-circle" style="color: #667eea"></i>
+          Configura el orden en que aparecerán las maniobras en la matriz de
+          evaluación.
+        </p>
+
+        <div class="maneuvers-list" id="maneuvers-list">
+          <!-- Maniobras dinámicas -->
+        </div>
+
+        <button
+          class="btn btn-primary"
+          onclick="generateMatrix()"
+          style="margin-top: 30px"
+        >
+          <i class="fas fa-table"></i> Generar Matriz de Evaluación
+        </button>
+
+        <div id="matrix-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2 -->
+  <div class="screen-content" id="screen2">
+    <!-- Leyenda de Calificaciones -->
+    <div class="legend-container">
+      <div class="legend-title">
+        <i class="fas fa-info-circle"></i> Leyenda de Calificaciones - DIRBEP
+      </div>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <div class="legend-badge D">D</div>
+          <div class="legend-text">
+            <div class="legend-code">D - DEMOSTRATIVO</div>
+            <div class="legend-description">Verde agua</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge I">I</div>
+          <div class="legend-text">
+            <div class="legend-code">I - INSUFICIENTE</div>
+            <div class="legend-description">Amarillo</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge R">R</div>
+          <div class="legend-text">
+            <div class="legend-code">R - REGULAR</div>
+            <div class="legend-description">Celeste</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge B">B</div>
+          <div class="legend-text">
+            <div class="legend-code">B - BUENO</div>
+            <div class="legend-description">Azul</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge E">E</div>
+          <div class="legend-text">
+            <div class="legend-code">E - EXCELENTE</div>
+            <div class="legend-description">Verde</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge P">P</div>
+          <div class="legend-text">
+            <div class="legend-code">P - PELIGROSO</div>
+            <div class="legend-description">Rojo</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-badge NR">NR</div>
+          <div class="legend-text">
+            <div class="legend-code">NR - NO REALIZADO</div>
+            <div class="legend-description">Plomo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">
+        <i class="fas fa-chart-bar"></i> Resultados y Evaluación de Misiones
+      </h3>
+
+      <div class="matrix-wrapper">
+        <table class="matrix-table" id="results-matrix">
+          <!-- Contenido generado dinámicamente -->
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Detalle -->
+<div class="modal" id="detailModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fas fa-clipboard-check"></i> Detalle de Evaluación</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="detailModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+    <script>
+        // Datos de ejemplo
+        const programData = {
+            PDI: {
+                fases: {
+                    'Fase 1': {
+                        subfases: {
+                            'Subfase 1.1': {},
+                            'Subfase 1.2': {}
+                        }
+                    },
+                    'Fase 2': {
+                        subfases: {
+                            'Subfase 2.1': {},
+                            'Subfase 2.2': {}
+                        }
+                    }
+                }
+            },
+            PDE: {
+                fases: {
+                    'Fase A': {
+                        subfases: {
+                            'Subfase A.1': {},
+                            'Subfase A.2': {}
+                        }
+                    }
+                }
+            }
+        };
+
+        const maneuversData = {
+            'Operaciones en tierra': [
+                'Inspección Pre-vuelo',
+                'Rodaje y posicionamiento',
+                'Chequeos de motor',
+                'Comunicaciones en tierra'
+            ],
+            'Operaciones en aire': [
+                'Despegue y ascenso',
+                'Vuelo nivelado',
+                'Virajes coordinados',
+                'Aproximación y aterrizaje'
+            ],
+            'Consideraciones generales': [
+                'Procedimientos de emergencia',
+                'Comunicaciones aeronáuticas',
+                'Navegación y orientación'
+            ]
+        };
+
+        const competenceCodes = ['CC', 'CE', 'CI', 'CO', 'CO', 'CO'];
+        let generatedMissions = [];
+        let selectedManeuvers = [];
+
+        // Datos simulados de resultados (Pantalla 2)
+        const resultsData = {
+            'CH-1': {
+                date: '01/08/25',
+                time: '14:30',
+                instructor: 'AML',
+                student: 'RRO',
+                aircraft: 'FX-280',
+                evaluations: {
+                    'Inspección Pre-vuelo': { expected: 'D', obtained: 'D', causa: 'Procedimiento correcto ejecutado', recomendacion: 'Mantener nivel de atención', observacion: 'Buen desempeño general' },
+                    'Rodaje y posicionamiento': { expected: 'D', obtained: 'I', causa: 'Frenado brusco en curva 2', recomendacion: 'Practicar suavidad en controles de freno', observacion: 'Mejorar coordinación' },
+                    'Chequeos de motor': { expected: 'D', obtained: 'R', causa: 'Omitió verificación de presión de aceite', recomendacion: 'Repasar checklist completo', observacion: '' },
+                    'Despegue y ascenso': { expected: 'I', obtained: 'I', causa: '', recomendacion: 'Mejorar coordinación pedales-timón', observacion: 'Progreso adecuado' }
+                }
+            },
+            'CH-2': {
+                date: '02/08/25',
+                time: '10:15',
+                instructor: 'JMP',
+                student: 'RRO',
+                aircraft: 'FX-281',
+                evaluations: {
+                    'Inspección Pre-vuelo': { expected: 'D', obtained: 'B', causa: '', recomendacion: 'Excelente mejora', observacion: 'Procedimiento ejecutado correctamente' },
+                    'Vuelo nivelado': { expected: 'R', obtained: 'E', causa: '', recomendacion: 'Mantener nivel alcanzado', observacion: 'Superó expectativas' }
+                }
+            },
+            'CH-3': {
+                date: '03/08/25',
+                time: '16:45',
+                instructor: 'AML',
+                student: 'RRO',
+                aircraft: 'FX-280',
+                evaluations: {
+                    'Virajes coordinados': { expected: 'I', obtained: 'P', causa: 'Pérdida de control en viraje cerrado', recomendacion: 'Reforzar entrenamiento en virajes', observacion: 'Requiere práctica adicional urgente' }
+                }
+            }
+        };
+
+        function switchScreen(screenNum) {
+            document.querySelectorAll('.screen-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.screen-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.closest('.screen-tab').classList.add('active');
+            document.getElementById(`screen${screenNum}`).classList.add('active');
+
+            if (screenNum === 2) {
+                generateResultsMatrix();
+            }
+        }
+
+        function switchTab(screen, tabNum) {
+            document.querySelectorAll(`#screen${screen} .tab`).forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll(`#screen${screen} .tab-content`).forEach(content => content.classList.remove('active'));
+            
+            document.querySelectorAll(`#screen${screen} .tab`)[tabNum - 1].classList.add('active');
+            document.getElementById(`screen${screen}-tab${tabNum}`).classList.add('active');
+        }
+
+        function loadS1Fases() {
+            const programa = document.getElementById('s1-programa').value;
+            const faseSelect = document.getElementById('s1-fase');
+            
+            faseSelect.innerHTML = '<option value="">-- Seleccionar Fase --</option>';
+            document.getElementById('s1-subfase').innerHTML = '<option value="">-- Seleccionar Subfase --</option>';
+            document.getElementById('s1-subfase').disabled = true;
+            
+            if (programa && programData[programa]) {
+                Object.keys(programData[programa].fases).forEach(fase => {
+                    const option = document.createElement('option');
+                    option.value = fase;
+                    option.textContent = fase;
+                    faseSelect.appendChild(option);
+                });
+                faseSelect.disabled = false;
+            } else {
+                faseSelect.disabled = true;
+            }
+        }
+
+        function loadS1Subfases() {
+            const programa = document.getElementById('s1-programa').value;
+            const fase = document.getElementById('s1-fase').value;
+            const subfaseSelect = document.getElementById('s1-subfase');
+            
+            subfaseSelect.innerHTML = '<option value="">-- Seleccionar Subfase --</option>';
+            
+            if (fase && programData[programa].fases[fase]) {
+                Object.keys(programData[programa].fases[fase].subfases).forEach(subfase => {
+                    const option = document.createElement('option');
+                    option.value = subfase;
+                    option.textContent = subfase;
+                    subfaseSelect.appendChild(option);
+                });
+                subfaseSelect.disabled = false;
+            } else {
+                subfaseSelect.disabled = true;
+            }
+        }
+
+        function loadS1Misiones() {
+            const subfase = document.getElementById('s1-subfase').value;
+            const misionSelect = document.getElementById('s1-mision');
+            
+            if (subfase) {
+                misionSelect.disabled = false;
+            } else {
+                misionSelect.disabled = true;
+            }
+        }
+
+        function generateMissionCards() {
+            const cantidad = parseInt(document.getElementById('cantidad-misiones').value);
+            const codigoMision = document.getElementById('s1-mision').value || 'CH';
+            const container = document.getElementById('mission-cards-container');
+            
+            if (!cantidad) {
+                container.innerHTML = '';
+                return;
+            }
+
+            generatedMissions = [];
+            let html = '<h4 style="color: #667eea; margin-bottom: 20px; font-size: 18px; font-weight: 700;"><i class="fas fa-layer-group"></i> Misiones Generadas:</h4>';
+            html += '<div class="mission-cards-grid">';
+            
+            for (let i = 1; i <= cantidad; i++) {
+                const missionCode = `${codigoMision}-${i}`;
+                generatedMissions.push(missionCode);
+                html += `<div class="mission-card-item">${missionCode}</div>`;
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+
+            // Generar lista de maniobras
+            generateManeuversList();
+        }
+
+        function generateManeuversList() {
+            const container = document.getElementById('maneuvers-list');
+            let html = '';
+            let order = 1;
+
+            Object.keys(maneuversData).forEach(category => {
+                html += `<h4 class="category-title"><i class="fas fa-chevron-right"></i> ${category}</h4>`;
+                
+                maneuversData[category].forEach(maneuver => {
+                    html += `
+                        <div class="maneuver-item">
+                            <div class="maneuver-name"><i class="fas fa-grip-vertical" style="color: #ccc; margin-right: 10px;"></i>${maneuver}</div>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <label style="font-size: 13px; color: #666; font-weight: 600;">Orden:</label>
+                                <input type="number" class="order-input" value="${order}" min="1" 
+                                       data-maneuver="${maneuver}" data-category="${category}">
+                            </div>
+                        </div>
+                    `;
+                    order++;
+                });
+            });
+
+            container.innerHTML = html;
+        }
+
+        function generateMatrix() {
+            selectedManeuvers = [];
+            document.querySelectorAll('.order-input').forEach(input => {
+                selectedManeuvers.push({
+                    name: input.dataset.maneuver,
+                    category: input.dataset.category,
+                    order: parseInt(input.value)
+                });
+            });
+
+            selectedManeuvers.sort((a, b) => a.order - b.order);
+
+            const container = document.getElementById('matrix-container');
+            let html = '<h3 class="section-title" style="margin-top: 40px;"><i class="fas fa-check-circle"></i> Matriz de Evaluación Configurada</h3>';
+            html += '<div class="matrix-wrapper"><table class="matrix-table">';
+            
+            // Encabezado de competencias
+            html += '<tr><th style="min-width: 250px;">MISIONES</th>';
+            competenceCodes.forEach(code => {
+                html += `<th class="competence-header">${code}</th>`;
+            });
+            html += '</tr>';
+
+            // Encabezado de códigos de misión
+            html += '<tr><th></th>';
+            generatedMissions.forEach(mission => {
+                html += `<th class="mission-code">${mission}</th>`;
+            });
+            html += '</tr>';
+
+            // Maniobras por categoría
+            let currentCategory = '';
+            selectedManeuvers.forEach(maneuver => {
+                if (maneuver.category !== currentCategory) {
+                    currentCategory = maneuver.category;
+                    html += `<tr><td colspan="${generatedMissions.length + 1}" class="category-header"><i class="fas fa-folder-open"></i> ${currentCategory}</td></tr>`;
+                }
+
+                html += `<tr><td class="maneuver-cell">${maneuver.name}</td>`;
+                generatedMissions.forEach(mission => {
+                    const grades = ['D/', 'I/', 'R/', 'B/', 'E/'];
+                    const grade = grades[Math.floor(Math.random() * grades.length)];
+                    html += `<td class="grade-cell"><span class="grade-display grade-${grade[0]}">${grade}</span></td>`;
+                });
+                html += '</tr>';
+            });
+
+            html += '</table></div>';
+            container.innerHTML = html;
+        }
+
+        function generateResultsMatrix() {
+            const table = document.getElementById('results-matrix');
+            let html = '';
+            
+            // Encabezado de competencias
+            html += '<tr><th style="min-width: 250px;">MISIONES</th>';
+            competenceCodes.forEach(code => {
+                html += `<th class="competence-header">${code}</th>`;
+            });
+            html += '</tr>';
+
+            // Encabezado de códigos de misión
+            html += '<tr><th></th>';
+            Object.keys(resultsData).forEach(mission => {
+                html += `<th class="mission-code">${mission}</th>`;
+            });
+            html += '</tr>';
+
+            // Maniobras por categoría
+            Object.keys(maneuversData).forEach(category => {
+                html += `<tr><td colspan="${Object.keys(resultsData).length + 1}" class="category-header"><i class="fas fa-folder-open"></i> ${category}</td></tr>`;
+                
+                maneuversData[category].forEach(maneuver => {
+                    html += `<tr><td class="maneuver-cell">${maneuver}</td>`;
+                    Object.keys(resultsData).forEach(mission => {
+                        const evalData = resultsData[mission].evaluations[maneuver];
+                        if (evalData) {
+                            const obtainedClass = `grade-${evalData.obtained}`;
+                            const expectedClass = `grade-${evalData.expected}`;
+                            html += `<td class="grade-cell" onclick="showDetail('${mission}', '${maneuver}')">
+                                <span class="grade-display ${expectedClass}">${evalData.expected}</span>/<span class="grade-display ${obtainedClass}">${evalData.obtained}</span>
+                                <span class="completed-mark">✓</span>
+                            </td>`;
+                        } else {
+                            html += `<td class="grade-cell"></td>`;
+                        }
+                    });
+                    html += '</tr>';
+                });
+            });
+
+            // Fila de detalles
+            html += '<tr><td style="font-weight: 700; color: #667eea; background: #f8f9ff !important;">DETALLES</td>';
+            Object.keys(resultsData).forEach(mission => {
+                const data = resultsData[mission];
+                html += `<td class="mission-details">
+                    <div style="margin-bottom: 4px;"><i class="fas fa-calendar"></i> ${data.date || '-'}</div>
+                    <div style="margin-bottom: 4px;"><i class="fas fa-chalkboard-teacher"></i> ${data.instructor || '-'}</div>
+                    <div style="margin-bottom: 4px;"><i class="fas fa-user-graduate"></i> ${data.student || '-'}</div>
+                    <div><i class="fas fa-plane"></i> ${data.aircraft || '-'}</div>
+                </td>`;
+            });
+            html += '</tr>';
+
+            table.innerHTML = html;
+        }
+
+        function showDetail(mission, maneuver) {
+            const data = resultsData[mission];
+            const evalData = data.evaluations[maneuver];
+            
+            if (!evalData) return;
+
+            const modalBody = document.getElementById('detailModalBody');
+            
+            let html = `
+                <div class="detail-row">
+                    <div class="detail-label"><i class="fas fa-bullseye"></i> Misión</div>
+                    <div class="detail-value" style="color: #667eea; font-size: 22px; font-weight: 800;">${mission}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label"><i class="fas fa-tasks"></i> Maniobra</div>
+                    <div class="detail-value">${maneuver}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label"><i class="fas fa-calendar-alt"></i> Fecha y Hora</div>
+                    <div class="detail-value">${data.date} - ${data.time}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label"><i class="fas fa-chalkboard-teacher"></i> Instructor</div>
+                    <div class="detail-value">${data.instructor}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label"><i class="fas fa-user-graduate"></i> Alumno</div>
+                    <div class="detail-value">${data.student}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label"><i class="fas fa-plane"></i> Aeronave</div>
+                    <div class="detail-value">${data.aircraft}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label"><i class="fas fa-star"></i> Calificación</div>
+                    <div class="detail-value">
+                        <div style="font-size: 32px; font-weight: 800; margin-bottom: 12px;">
+                            <span class="grade-${evalData.expected}">${evalData.expected}</span> / 
+                            <span class="grade-${evalData.obtained}">${evalData.obtained}</span>
+                        </div>
+                        <div style="font-size: 14px; line-height: 1.8;">
+                            <strong>Esperado:</strong> <span class="grade-${evalData.expected}">${getGradeText(evalData.expected)}</span><br>
+                            <strong>Obtenido:</strong> <span class="grade-${evalData.obtained}">${getGradeText(evalData.obtained)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (evalData.causa) {
+                html += `
+                    <div class="detail-row">
+                        <div class="detail-label"><i class="fas fa-exclamation-triangle"></i> Causa (Texto Rojo)</div>
+                        <div class="text-causa">${evalData.causa}</div>
+                    </div>
+                `;
+            }
+
+            if (evalData.recomendacion) {
+                html += `
+                    <div class="detail-row">
+                        <div class="detail-label"><i class="fas fa-lightbulb"></i> Recomendación (Texto Azul)</div>
+                        <div class="text-recomendacion">${evalData.recomendacion}</div>
+                    </div>
+                `;
+            }
+
+            if (evalData.observacion) {
+                html += `
+                    <div class="detail-row">
+                        <div class="detail-label"><i class="fas fa-comment"></i> Observación (Texto Negro)</div>
+                        <div class="text-observacion">${evalData.observacion}</div>
+                    </div>
+                `;
+            }
+
+            modalBody.innerHTML = html;
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function getGradeText(grade) {
+            const grades = {
+                'D': 'Demostrativo',
+                'I': 'Insuficiente',
+                'R': 'Regular',
+                'B': 'Bueno',
+                'E': 'Excelente',
+                'P': 'Peligroso',
+                'NR': 'No Realizado'
+            };
+            return grades[grade] || grade;
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Inicializar con datos de ejemplo para demostración
+        window.addEventListener('load', function() {
+            // Simular selección inicial para demostración
+            document.getElementById('s1-programa').value = 'PDI';
+            loadS1Fases();
+            document.getElementById('s1-fase').value = 'Fase 1';
+            loadS1Subfases();
+            document.getElementById('s1-subfase').value = 'Subfase 1.1';
+            loadS1Misiones();
+            document.getElementById('s1-mision').value = 'CH';
+        });
+    </script>
