@@ -1,0 +1,65 @@
+<div class="bg-shape bg-shape-1"></div>
+<div class="bg-shape bg-shape-2"></div>
+<div class="bg-shape bg-shape-3"></div>
+
+<!-- Contenedor principal -->
+<div class="not-found-container">
+  <!-- Logo -->
+  <div class="logo-container">
+    <div class="logo">
+      <i class="pi pi-box"></i>
+    </div>
+    <span class="logo-text">MiApp</span>
+  </div>
+
+  <!-- Ilustración de error -->
+  <div class="error-illustration">
+    <div class="error-number">404</div>
+
+    <div class="error-icon-wrapper">
+      <div class="error-icon">
+        <i class="pi pi-search"></i>
+      </div>
+      <div class="error-icon">
+        <i class="pi pi-question-circle"></i>
+      </div>
+      <div class="error-icon">
+        <i class="pi pi-map-marker"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <h1 class="error-title">¡Oops! Página no encontrada</h1>
+  <p class="error-description">
+    Lo sentimos, la página que estás buscando no existe o ha sido movida.
+    Verifica la URL o regresa al inicio para continuar navegando.
+  </p>
+
+  <!-- Botones de acción -->
+  <div class="action-buttons">
+    <button class="btn btn-primary" (click)="goHome()">
+      <i class="pi pi-home"></i>
+      Volver al Inicio
+    </button>
+    <button class="btn btn-secondary" (click)="goBack()">
+      <i class="pi pi-arrow-left"></i>
+      Regresar
+    </button>
+  </div>
+
+  <!-- Links útiles -->
+  <!-- <div class="helpful-links">
+    <p class="helpful-links-title">Enlaces Útiles</p>
+    <div class="links-grid">
+      <a
+        *ngFor="let link of usefulLinks"
+        class="link-item"
+        (click)="navigate(link.route)"
+      >
+        <i [class]="link.icon"></i>
+        <span>{{ link.label }}</span>
+      </a>
+    </div>
+  </div> -->
+</div>

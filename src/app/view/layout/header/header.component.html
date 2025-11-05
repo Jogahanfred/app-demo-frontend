@@ -1,0 +1,37 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <div class="logo-container">
+      <div class="logo">MA</div>
+      <span class="logo-text">MiApp</span>
+    </div>
+    <button class="hamburger-btn" (click)="toggleSidebar()">
+      <i class="pi pi-bars"></i>
+    </button>
+  </div>
+  
+  <div class="navbar-right">
+    <div class="user-info">
+      <span class="user-name">{{ user.name }}</span>
+      <div class="user-avatar">{{ user.avatar }}</div>
+    </div>
+    <button class="dropdown-btn" (click)="toggleDropdown()">
+      <i class="pi pi-angle-down"></i>
+    </button>
+    
+    <div class="dropdown-menu" [class.active]="dropdownOpen">
+      <a class="dropdown-item" (click)="goToProfile()">
+        <i class="pi pi-user"></i>
+        <span>Perfil</span>
+      </a>
+      <a class="dropdown-item" (click)="goToSettings()">
+        <i class="pi pi-cog"></i>
+        <span>Configuración</span>
+      </a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item logout" (click)="logout()">
+        <i class="pi pi-sign-out"></i>
+        <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </div>
+</nav>

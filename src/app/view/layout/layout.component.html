@@ -1,0 +1,322 @@
+<div class="layout-wrapper">
+  <app-header 
+    [isMobile]="isMobile" 
+    (sidebarToggle)="toggleSidebar()">
+  </app-header>
+  
+  <app-sidebar 
+    [collapsed]="sidebarCollapsed" 
+    [isMobile]="isMobile"
+    (toggleSidebar)="onSidebarToggle($event)">
+  </app-sidebar>
+  
+  <main class="main-content" [class.expanded]="sidebarCollapsed && !isMobile">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+    
+    <app-footer></app-footer>
+  </main>
+
+  <!-- Loader global -->
+  <!-- <div class="loader-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p class="loader-text">Cargando...</p>
+  </div> -->
+</div>
+
+
+<!-- ==================== TOAST ==================== -->
+<!-- <div id="toast" class="toast">
+  <div class="toast-icon">
+    <i class="pi pi-check-circle"></i>
+  </div>
+  <div class="toast-content">
+    <div class="toast-title">¡Inicio de sesión exitoso!</div>
+    <div class="toast-message">Redirigiendo al panel principal...</div>
+  </div>
+  <button class="toast-close" onclick="closeToast()">
+    <i class="pi pi-times"></i>
+  </button>
+</div> -->
+
+<!-- ==================== LOADER ==================== -->
+<!-- <div class="loader-overlay" id="loader">
+  <div class="spinner"></div>
+  <p class="loader-text">Cargando...</p>
+</div> -->
+<!-- 
+<script>
+  let isMobile = window.innerWidth < 768;
+  let sidebarCollapsed = false;
+  let isLoggedIn = false;
+
+  // Detectar cambio de tamaño de pantalla
+  window.addEventListener("resize", () => {
+    const prevMobile = isMobile;
+    isMobile = window.innerWidth < 768;
+
+    if (prevMobile !== isMobile && isLoggedIn) {
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const mainContent = document.getElementById("mainContent");
+
+      if (isMobile) {
+        sidebar.classList.remove("active", "collapsed");
+        overlay.classList.remove("active");
+        mainContent.classList.remove("expanded");
+        sidebarCollapsed = false;
+      } else {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+        if (sidebarCollapsed) {
+          sidebar.classList.add("collapsed");
+          mainContent.classList.add("expanded");
+        }
+      }
+    }
+  });
+
+  // ==================== LOGIN FUNCTIONS ====================
+  function handleLogin(event) {
+    event.preventDefault();
+
+    showToast("success");
+
+    setTimeout(() => {
+      const loginPage = document.getElementById("loginPage");
+      const dashboardWrapper = document.getElementById("dashboardWrapper");
+
+      loginPage.classList.add("hidden");
+      dashboardWrapper.classList.add("active");
+      isLoggedIn = true;
+
+      closeToast();
+    }, 2000);
+  }
+
+  // ==================== DASHBOARD FUNCTIONS ====================
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const mainContent = document.getElementById("mainContent");
+
+    if (isMobile) {
+      sidebar.classList.toggle("active");
+      overlay.classList.toggle("active");
+    } else {
+      sidebarCollapsed = !sidebarCollapsed;
+      sidebar.classList.toggle("collapsed");
+      mainContent.classList.toggle("expanded");
+    }
+  }
+
+  function closeSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+
+    if (isMobile) {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
+    }
+  }
+
+  function toggleDropdown() {
+    const dropdown = document.getElementById("dropdownMenu");
+    dropdown.classList.toggle("active");
+  }
+
+  document.addEventListener("click", (e) => {
+    const dropdown = document.getElementById("dropdownMenu");
+    const dropdownBtn = e.target.closest(".dropdown-btn");
+    const navbarRight = e.target.closest(".navbar-right");
+
+    if (!navbarRight || (!dropdownBtn && !dropdown.contains(e.target))) {
+      dropdown.classList.remove("active");
+    }
+  });
+
+  function navigateTo(page, element) {
+    showLoader();
+
+    document.querySelectorAll(".menu-item").forEach((item) => {
+      item.classList.remove("active");
+    });
+    element.classList.add("active");
+
+    if (isMobile) {
+      setTimeout(() => closeSidebar(), 100);
+    }
+
+    setTimeout(() => {
+      updatePageContent(page);
+      hideLoader();
+    }, 500);
+  }
+
+  function navigateToPage(page, event) {
+    event.preventDefault();
+    showLoader();
+    toggleDropdown();
+
+    setTimeout(() => {
+      updatePageContent(page);
+      hideLoader();
+    }, 500);
+  }
+
+  function updatePageContent(page) {
+    const contentWrapper = document.getElementById("contentWrapper");
+
+    const contentExamples = {
+      Dashboard: `
+                    <div class="page-header">
+                        <h1 class="page-title">Dashboard</h1>
+                        <div class="breadcrumb">Inicio / Dashboard</div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                    <i class="pi pi-users"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">1,234</div>
+                            <div class="stat-label">Total Usuarios</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                    <i class="pi pi-chart-line"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">892</div>
+                            <div class="stat-label">Usuarios Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                    <i class="pi pi-file"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">45</div>
+                            <div class="stat-label">Reportes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                    <i class="pi pi-star"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Calificación</div>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <h2>Bienvenido al Sistema</h2>
+                        <p style="color: #64748b; line-height: 1.8;">
+                            Panel principal con estadísticas y resumen general del sistema.
+                        </p>
+                    </div>
+                `,
+      default: `
+                    <div class="page-header">
+                        <h1 class="page-title">${page}</h1>
+                        <div class="breadcrumb">Inicio / ${page}</div>
+                    </div>
+                    <div class="content-card">
+                        <h2>Sección ${page}</h2>
+                        <p style="color: #64748b; line-height: 1.8;">
+                            Este es el contenido de la página ${page}. Aquí puedes agregar tablas de PrimeNG, 
+                            formularios, gráficos y cualquier otro componente que necesites.
+                        </p>
+                    </div>
+                    <div class="content-card">
+                        <h2>Información Adicional</h2>
+                        <p style="color: #64748b; line-height: 1.8;">
+                            Esta plantilla está lista para integrar con Angular y usar todos los componentes de PrimeNG.
+                        </p>
+                    </div>
+                `,
+    };
+
+    contentWrapper.innerHTML =
+      contentExamples[page] || contentExamples["default"];
+  }
+
+  function logout(event) {
+    event.preventDefault();
+    showLoader();
+    toggleDropdown();
+
+    setTimeout(() => {
+      const loginPage = document.getElementById("loginPage");
+      const dashboardWrapper = document.getElementById("dashboardWrapper");
+
+      dashboardWrapper.classList.remove("active");
+      loginPage.classList.remove("hidden");
+      isLoggedIn = false;
+
+      // Reset form
+      document.getElementById("loginForm").reset();
+
+      hideLoader();
+
+      // Mostrar toast de cierre de sesión
+      setTimeout(() => {
+        showToast("info", "Sesión cerrada", "Has cerrado sesión exitosamente");
+      }, 300);
+    }, 500);
+  }
+
+  // ==================== TOAST FUNCTIONS ====================
+  function showToast(type, customTitle = null, customMessage = null) {
+    const toast = document.getElementById("toast");
+    const icon = toast.querySelector(".toast-icon i");
+    const title = toast.querySelector(".toast-title");
+    const message = toast.querySelector(".toast-message");
+
+    toast.classList.remove("success", "error", "show");
+
+    if (type === "success") {
+      toast.classList.add("success");
+      icon.className = "pi pi-check-circle";
+      title.textContent = customTitle || "¡Inicio de sesión exitoso!";
+      message.textContent =
+        customMessage || "Redirigiendo al panel principal...";
+    } else if (type === "error") {
+      toast.classList.add("error");
+      icon.className = "pi pi-times-circle";
+      title.textContent = customTitle || "Error en el inicio de sesión";
+      message.textContent =
+        customMessage || "Credenciales incorrectas. Inténtalo de nuevo.";
+    } else if (type === "info") {
+      toast.classList.add("success");
+      icon.className = "pi pi-info-circle";
+      title.textContent = customTitle || "Información";
+      message.textContent = customMessage || "Funcionalidad próximamente...";
+    }
+
+    setTimeout(() => {
+      toast.classList.add("show");
+    }, 100);
+
+    setTimeout(() => {
+      closeToast();
+    }, 4000);
+  }
+
+  function closeToast() {
+    const toast = document.getElementById("toast");
+    toast.classList.remove("show");
+  }
+
+  // ==================== LOADER FUNCTIONS ====================
+  function showLoader() {
+    document.getElementById("loader").classList.add("active");
+  }
+
+  function hideLoader() {
+    document.getElementById("loader").classList.remove("active");
+  }
+</script> -->

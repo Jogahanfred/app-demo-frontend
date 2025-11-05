@@ -1,0 +1,30 @@
+<!-- Overlay (solo mobile) -->
+<div class="overlay" 
+     [class.active]="collapsed && isMobile" 
+     (click)="closeSidebar()">
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" 
+       [class.collapsed]="collapsed && !isMobile"
+       [class.active]="collapsed && isMobile">
+  <div class="sidebar-content">
+    <ul class="menu-list">
+      <li *ngFor="let item of menuItems" 
+          class="menu-item"
+          [class.active]="item.active"
+          (click)="navigateTo(item)">
+        <i [class]="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="sidebar-footer">
+    <div class="footer-avatar">{{ user.avatar }}</div>
+    <div class="footer-user-info">
+      <span class="footer-user-name">{{ user.name }}</span>
+      <span class="footer-user-role">{{ user.role }}</span>
+    </div>
+  </div>
+</aside>
