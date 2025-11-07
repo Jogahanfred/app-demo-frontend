@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  inject,
-  signal,
-  effect,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -19,10 +12,12 @@ import { finalize } from 'rxjs';
 import { Table } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { SelectModule } from 'primeng/select';
+import { ToastModule } from 'primeng/toast';
 
 import { UnitService } from '../../shared/http/unit.service';
-import { Response } from '../../core/interface/response.interface';
 import { Unit } from '../../shared/interface/unit.interface';
+import { Response } from '../../core/interface/response.interface';
+import { ToastService } from '../../shared/services/toast.service';
 
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 import {
@@ -33,10 +28,8 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { InputFieldComponent } from '../../shared/components/input-field/input-field.component';
 import { SelectFieldComponent } from '../../shared/components/select-field/select-field.component';
-import { MessageService } from 'primeng/api';
-import { ToastService } from '../../shared/services/toast.service';
-import { ToastModule } from 'primeng/toast';
-
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @Component({
   selector: 'app-unit',
   standalone: true,
@@ -53,10 +46,14 @@ import { ToastModule } from 'primeng/toast';
     ModalComponent,
     InputFieldComponent,
     SelectFieldComponent,
-    ToastModule
+    ToastModule,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService, MessageService],
 })
 export class UnitComponent implements OnInit {
+  private readonly messageService = inject(MessageService);
+  private readonly confirmationService = inject(ConfirmationService);
   private readonly unitService = inject(UnitService);
   private readonly fb = inject(FormBuilder);
   private readonly toastService = inject(ToastService);
@@ -64,22 +61,26 @@ export class UnitComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
 
   /** Signals */
-  public loading = signal(false);
-  public units = signal<Unit[]>([]);
-  public page = signal(1);
-  public size = signal(5);
-  public filter = signal('');
+  loading = signal(false);
+  units = signal<Unit[]>([]);
+  page = signal(1);
+  size = signal(5);
+  filter = signal('');
 
   /** Estados */
-  public totalRecords = 0;
-  public selectedField?: string;
-  public statusOnly = false;
-  public selectedUnits?: Unit[] | null;
+  totalRecords = 0;
+  selectedField?: string;
+  statusOnly = false;
+  selectedUnits?: Unit[] | null;
 
   /** Modal */
-  showModal = false;
-  editing = false;
-  saving = false;
+  showModal = signal(false);
+  editing = signal(false);
+  saving = signal(false);
+  viewMode = signal(false);
+
+  /** Unidad que se está editando */
+  editingUnit: Unit | null = null;
 
   /** Reactive Form */
   unitForm!: FormGroup;
@@ -121,34 +122,6 @@ export class UnitComponent implements OnInit {
     { label: 'Inactivo', value: 'INACTIVE' },
   ];
 
-  get nuCodeControl(): FormControl {
-    return this.unitForm.get('nuCode') as FormControl;
-  }
-
-  get coAbbreviationControl(): FormControl {
-    return this.unitForm.get('coAbbreviation') as FormControl;
-  }
-
-  get txDescriptionControl(): FormControl {
-    return this.unitForm.get('txDescription') as FormControl;
-  }
-
-  get nuLevelControl(): FormControl {
-    return this.unitForm.get('nuLevel') as FormControl;
-  }
-
-  get nuRectorCodeControl(): FormControl {
-    return this.unitForm.get('nuRectorCode') as FormControl;
-  }
-
-  get flStatusControl(): FormControl {
-    return this.unitForm.get('flStatus') as FormControl;
-  }
-
-  get txImagePathControl(): FormControl {
-    return this.unitForm.get('txImagePath') as FormControl;
-  }
-
   ngOnInit() {
     this.initForm();
     this.unitService.getUnitChange().subscribe(() => this.loadUnits());
@@ -158,12 +131,9 @@ export class UnitComponent implements OnInit {
   /** Inicializar formulario */
   private initForm(): void {
     this.unitForm = this.fb.group({
-      nuCode: [
-        { value: '', disabled: true },
-        [Validators.required, Validators.min(100)],
-      ],
+      nuCode: ['', [Validators.required, Validators.min(100)]],
       coAbbreviation: ['', [Validators.required, Validators.maxLength(5)]],
-      txDescription: ['', [Validators.required, Validators.maxLength(5)]],
+      txDescription: ['', [Validators.required, Validators.maxLength(255)]],
       nuLevel: ['', [Validators.required]],
       nuRectorCode: ['', [Validators.required]],
       flStatus: ['ACTIVE', Validators.required],
@@ -171,60 +141,141 @@ export class UnitComponent implements OnInit {
     });
   }
 
-  /** Abrir modal */
-  openModal(editMode = false, data?: Unit): void {
-    this.editing = editMode;
-    this.showModal = true;
+  /** Obtener control dinámicamente */
+  control(name: string): FormControl {
+    const ctrl = this.unitForm.get(name);
+    if (!ctrl) throw new Error(`Control '${name}' no encontrado en unitForm`);
+    return ctrl as FormControl;
+  }
 
-    if (editMode && data) {
+  /** Abrir modal */
+  openModal(editMode = false, unit?: Unit, view = false): void {
+    this.editing.set(editMode);
+    this.viewMode.set(view);
+    this.showModal.set(true);
+
+    if ((editMode || view) && unit) {
+      this.editingUnit = unit;
       this.unitForm.reset();
-      this.unitForm.patchValue(data);
+      this.unitForm.patchValue(unit);
+
+      if (view) {
+        // Deshabilitar todos los campos si es solo visualización
+        this.unitForm.disable();
+      } else {
+        this.unitForm.enable();
+      }
     } else {
+      this.editingUnit = null;
       this.unitForm.reset({ flStatus: 'ACTIVE' });
+      this.unitForm.enable();
     }
   }
 
-  /** Guardar datos */
+  /** Guardar datos (crear o editar) */
   onSave(): void {
-    this.loading.set(true);
     if (this.unitForm.invalid) {
-      setTimeout(() => {
-        this.unitForm.markAllAsTouched();
-        this.loading.set(false);
-        this.toastService.showError(
-          'Error',
-          'Por favor, complete los campos requeridos correctamente.'
-        );
-      }, 500);
+      this.unitForm.markAllAsTouched();
+      this.toastService.showError(
+        'Error',
+        'Por favor, complete o verifique los campos incorrectos.'
+      );
       return;
     }
 
-    // this.saving = true;
-    // const payload = this.unitForm.value;
+    this.saving.set(true);
+    this.loading.set(true);
 
-    // setTimeout(() => {
-    //   console.log(this.editing ? '📝 Editando:' : '🆕 Creando:', payload);
-    //   this.saving = false;
-    //   this.showModal = false;
-    // }, 1000);
+    const payload = this.unitForm.getRawValue();
+    const request$ = this.editingUnit
+      ? this.unitService.updateUnit(this.editingUnit.nuUnitId!, payload)
+      : this.unitService.createUnit(payload);
+
+    request$
+      .pipe(
+        finalize(() => {
+          this.saving.set(false);
+          this.loading.set(false);
+        })
+      )
+      .subscribe({
+        next: (res: Response) => {
+          this.toastService.showSuccess(
+            'Éxito',
+            res.message ||
+              (this.editingUnit
+                ? 'Registro editado correctamente.'
+                : 'Registro guardado correctamente.')
+          );
+          this.showModal.set(false);
+          this.loadUnits();
+          this.editingUnit = null;
+          if (!this.editingUnit) this.unitForm.reset({ flStatus: 'ACTIVE' });
+        },
+        error: (err: any) => {
+          console.error('Error al guardar la unidad:', err);
+          this.toastService.showError(
+            'Error',
+            err?.error?.message ||
+              err?.message ||
+              'Ocurrió un problema al guardar el registro.'
+          );
+        },
+      });
   }
 
+  onDelete(unit: Unit): void {
+    if (!unit.nuUnitId) return;
+
+    this.confirmationService.confirm({
+      message: `¿Está seguro de eliminar la unidad "${unit.txDescription}"?`,
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Eliminar',
+      rejectButtonStyleClass: 'p-button-secondary',
+      rejectLabel: 'Cancelar',
+      accept: () => {
+        this.loading.set(true);
+        this.unitService
+          .deleteUnit(unit.nuUnitId!)
+          .pipe(finalize(() => this.loading.set(false)))
+          .subscribe({
+            next: () => {
+              this.toastService.showSuccess(
+                'Éxito',
+                'Unidad eliminada correctamente.'
+              );
+              this.loadUnits();
+            },
+            error: (err) => {
+              console.error('Error al eliminar la unidad:', err.error);
+              this.toastService.showError('Error', err.message);
+            },
+          });
+      },
+      reject: () => {},
+    });
+  }
+
+  /** Cancelar modal */
   onCancel(): void {
-    this.showModal = false;
+    this.showModal.set(false);
+    this.editingUnit = null;
   }
 
-  /** Cargar data */
+  /** Cargar unidades */
   loadUnits(): void {
     this.loading.set(true);
     this.unitService
-      .getPageUnitsInit(this.page(), this.size(), this.filter())
+      .getUnitsPage(this.page(), this.size(), this.filter())
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: (response: Response) => {
-          this.units.set(response.data.content);
-          this.totalRecords = response.data.totalElements;
+        next: (res: Response) => {
+          this.units.set(res.data.content);
+          this.totalRecords = res.data.totalElements;
         },
-        error: (err) => console.error('Error al cargar unidades', err),
+        error: () =>
+          this.toastService.showError('Error', 'Error al cargar unidades'),
       });
   }
 
@@ -235,10 +286,10 @@ export class UnitComponent implements OnInit {
         this.openModal(true, event.row);
         break;
       case 'view':
-        console.log('👁 Ver registro:', event.row);
+        this.openModal(false, event.row, true);
         break;
       case 'delete':
-        console.log('🗑 Eliminar registro:', event.row);
+        this.onDelete(event.row);
         break;
     }
   }

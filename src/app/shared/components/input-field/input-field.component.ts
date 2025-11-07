@@ -74,6 +74,11 @@ export class InputFieldComponent
       });
     }
   }
+  
+  get showError(): boolean {
+    if (!this.control) return false;
+    return this.control.invalid && (this.control.touched || this.control.dirty);
+  }
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -84,14 +89,13 @@ export class InputFieldComponent
 
     // Actualiza el FormControl directamente
     if (this.control) {
-      this.control.setValue(this.value);
-      this.control.markAsDirty();
-      this.control.markAsTouched();
+      this.control.setValue(this.value, { emitEvent: false });
     }
   }
 
   onBlur() {
     this.onTouched();
+    // solo marcar touched si el usuario interactúa
     this.control?.markAsTouched();
   }
 
@@ -121,10 +125,8 @@ export class InputFieldComponent
 
   get isRequired(): boolean {
     if (!this.control || !this.control.validator) return false;
-
-    // Crear un control temporal para testear el validator
     const validator = this.control.validator({} as FormControl);
-    return validator ? validator['required'] === true : false;
+    return validator ? !!validator['required'] : false;
   }
 
   // Validator

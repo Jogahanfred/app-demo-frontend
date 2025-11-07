@@ -1,5 +1,7 @@
 <app-spinner [show]="loading()"></app-spinner>
-<p-toast/> 
+<p-toast />
+<p-confirmdialog />
+
 <div class="flex gap-3 mb-3 justify-content-end flex-wrap">
   <app-button
     label="Exportar"
@@ -14,7 +16,7 @@
     (clicked)="openModal()"
   ></app-button>
 </div>
- 
+
 <p-card>
   <app-table
     [data]="units()"
@@ -27,13 +29,14 @@
     (actionClicked)="handleAction($event)"
     (onPageChange)="onPageChange($event)"
     (onFilterChange)="onFilterTable($event)"
-  />
+  ></app-table>
 </p-card>
 
 <app-modal
-  [(visible)]="showModal"
-  [saving]="saving"
-  [title]="editing ? 'Editar Escuadrón' : 'Crear Escuadrón'"
+  [visible]="showModal()"
+  [saving]="saving()"
+  [showSaveButton]="!viewMode()"
+  [title]="editing() ? 'Editar Escuadrón' : viewMode() ? 'Información del Escuadrón' : 'Crear Escuadrón'"
   (save)="onSave()"
   (cancel)="onCancel()"
 >
@@ -44,7 +47,7 @@
           label="Código"
           icon="pi pi-user"
           placeholder="Ingrese el código"
-          [control]="nuCodeControl"
+          [control]="control('nuCode')"
         ></app-input-field>
       </div>
       <div class="flex-1">
@@ -52,7 +55,7 @@
           label="Sigla"
           icon="pi pi-user"
           placeholder="Ingrese la sigla"
-          [control]="coAbbreviationControl"
+          [control]="control('coAbbreviation')"
         ></app-input-field>
       </div>
     </div>
@@ -63,7 +66,7 @@
           label="Nivel"
           icon="pi pi-list"
           placeholder="Ingrese el nivel"
-          [control]="nuLevelControl"
+          [control]="control('nuLevel')"
         ></app-input-field>
       </div>
       <div class="flex-1">
@@ -71,7 +74,7 @@
           label="Código Rector"
           icon="pi pi-id-card"
           placeholder="Ingrese código rector"
-          [control]="nuRectorCodeControl"
+          [control]="control('nuRectorCode')"
         ></app-input-field>
       </div>
     </div>
@@ -80,13 +83,13 @@
       label="Descripción"
       icon="pi pi-pencil"
       placeholder="Ingrese la descripción"
-      [control]="txDescriptionControl"
+      [control]="control('txDescription')"
     ></app-input-field>
 
     <app-select-field
       label="Estado"
       placeholder="Seleccione un estado"
-      [control]="flStatusControl"
+      [control]="control('flStatus')"
       [options]="statusOptions"
     ></app-select-field>
 
@@ -94,7 +97,7 @@
       label="Ruta de Imagen"
       icon="pi pi-image"
       placeholder="Ingrese ruta de imagen"
-      [control]="txImagePathControl"
+      [control]="control('txImagePath')"
     ></app-input-field>
   </form>
 </app-modal>

@@ -10,7 +10,7 @@
       pInputText
       [disabled]="disabled"
       [ngClass]="{
-        'p-invalid': control?.invalid && (control?.dirty || control?.touched)
+        'p-invalid': showError
       }"
       [placeholder]="placeholder"
       [value]="value"
@@ -20,10 +20,7 @@
     />
   </p-iconField>
 
-  <div
-    *ngIf="control?.invalid && (control?.dirty || control?.touched)"
-    class="text-red-500 text-sm mt-1"
-  >
+  <div *ngIf="showError" class="text-red-500 text-sm mt-1">
     <div *ngIf="control?.errors?.['required']">{{ label }} es requerido.</div>
     <div *ngIf="control?.errors?.['minlength']">
       {{ label }} debe tener al menos

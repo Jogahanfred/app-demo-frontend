@@ -25,10 +25,13 @@ export class ModalComponent {
 
   /** Texto de los botones */
   @Input() saveLabel = 'Guardar';
-  @Input() cancelLabel = 'Cancelar';
+  @Input() cancelLabel = 'Cerrar';
 
   /** Controla si se muestran los botones de acción */
   @Input() showFooter = true;
+
+  /** Controla si se muestra el botón de guardar */
+  @Input() showSaveButton = true;
 
   /** Deshabilita el botón de guardar */
   @Input() saveDisabled = false;

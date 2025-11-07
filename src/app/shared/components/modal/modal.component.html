@@ -20,7 +20,9 @@
         (click)="onHide()"
       ></button>
 
+      <!-- Mostrar botón Guardar solo si showSaveButton es true -->
       <button
+        *ngIf="showSaveButton"
         pButton
         type="button"
         [label]="saving ? 'Guardando...' : saveLabel"
