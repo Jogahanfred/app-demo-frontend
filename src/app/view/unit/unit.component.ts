@@ -33,6 +33,9 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { InputFieldComponent } from '../../shared/components/input-field/input-field.component';
 import { SelectFieldComponent } from '../../shared/components/select-field/select-field.component';
+import { MessageService } from 'primeng/api';
+import { ToastService } from '../../shared/services/toast.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-unit',
@@ -49,12 +52,14 @@ import { SelectFieldComponent } from '../../shared/components/select-field/selec
     TableComponent,
     ModalComponent,
     InputFieldComponent,
-    SelectFieldComponent
+    SelectFieldComponent,
+    ToastModule
   ],
 })
 export class UnitComponent implements OnInit {
   private readonly unitService = inject(UnitService);
   private readonly fb = inject(FormBuilder);
+  private readonly toastService = inject(ToastService);
 
   @ViewChild('dt') dt!: Table;
 
@@ -172,8 +177,8 @@ export class UnitComponent implements OnInit {
     this.showModal = true;
 
     if (editMode && data) {
-      this.unitForm.patchValue(data); 
-      console.log("edit:", this.unitForm.getRawValue())
+      this.unitForm.reset();
+      this.unitForm.patchValue(data);
     } else {
       this.unitForm.reset({ flStatus: 'ACTIVE' });
     }
@@ -181,16 +186,27 @@ export class UnitComponent implements OnInit {
 
   /** Guardar datos */
   onSave(): void {
-    if (this.unitForm.invalid) return;
+    this.loading.set(true);
+    if (this.unitForm.invalid) {
+      setTimeout(() => {
+        this.unitForm.markAllAsTouched();
+        this.loading.set(false);
+        this.toastService.showError(
+          'Error',
+          'Por favor, complete los campos requeridos correctamente.'
+        );
+      }, 500);
+      return;
+    }
 
-    this.saving = true;
-    const payload = this.unitForm.value;
+    // this.saving = true;
+    // const payload = this.unitForm.value;
 
-    setTimeout(() => {
-      console.log(this.editing ? '📝 Editando:' : '🆕 Creando:', payload);
-      this.saving = false;
-      this.showModal = false;
-    }, 1000);
+    // setTimeout(() => {
+    //   console.log(this.editing ? '📝 Editando:' : '🆕 Creando:', payload);
+    //   this.saving = false;
+    //   this.showModal = false;
+    // }, 1000);
   }
 
   onCancel(): void {

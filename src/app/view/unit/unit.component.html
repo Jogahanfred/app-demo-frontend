@@ -1,6 +1,5 @@
 <app-spinner [show]="loading()"></app-spinner>
-
-<!-- Botones de acción -->
+<p-toast/> 
 <div class="flex gap-3 mb-3 justify-content-end flex-wrap">
   <app-button
     label="Exportar"
@@ -15,8 +14,7 @@
     (clicked)="openModal()"
   ></app-button>
 </div>
-
-<!-- Tabla -->
+ 
 <p-card>
   <app-table
     [data]="units()"
@@ -32,7 +30,7 @@
   />
 </p-card>
 
-<!-- Modal --><app-modal
+<app-modal
   [(visible)]="showModal"
   [saving]="saving"
   [title]="editing ? 'Editar Escuadrón' : 'Crear Escuadrón'"
