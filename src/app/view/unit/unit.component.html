@@ -1,27 +1,51 @@
 <app-spinner [show]="loading()"></app-spinner>
-<div class="card">
-  <div class="flex gap-3 mb-3 justify-content-end flex-wrap">
-    <button pButton severity="success" class="w-full md:w-auto">
-      <i class="pi pi-file-excel" pButtonIcon></i>
-      <span pButtonLabel>Exportar a Excel</span>
-    </button>
 
-    <button pButton class="w-full md:w-auto">
-      <i class="pi pi-file-plus" pButtonIcon></i>
-      <span pButtonLabel>Crear escuadrón</span>
-    </button>
-  </div>
-  <p-card>
-    <app-table
-      [data]="units()"
-      [columns]="columns"
-      [rows]="size()"
-      [totalRecords]="totalRecords"
-      [filterFields]="referencias"
-      [showGlobalFilter]="true"
-      [showStatusToggle]="true"
-      (actionClicked)="handleAction($event)"
-      (onPageChange)="onPageChange($event)"
-      (onFilterChange)="onFilterTable($event)"/> 
-  </p-card>
+<!-- Botones de acción -->
+<div class="flex gap-3 mb-3 justify-content-end flex-wrap">
+  <app-button
+    label="Exportar"
+    icon="pi pi-file-excel"
+    severity="success"
+  ></app-button>
+
+  <app-button
+    label="Crear escuadrón"
+    icon="pi pi-file-plus"
+    severity="primary"
+    (clicked)="openModal()"
+  ></app-button>
 </div>
+
+<!-- Tabla -->
+<p-card>
+  <app-table
+    [data]="units()"
+    [columns]="columns"
+    [rows]="size()"
+    [totalRecords]="totalRecords"
+    [filterFields]="referencias"
+    [showGlobalFilter]="true"
+    [showStatusToggle]="true"
+    (actionClicked)="handleAction($event)"
+    (onPageChange)="onPageChange($event)"
+    (onFilterChange)="onFilterTable($event)"
+  />
+</p-card>
+
+<!-- Modal --><app-modal
+  [(visible)]="showModal"
+  [saving]="saving"
+  [title]="editing ? 'Editar Escuadrón' : 'Crear Escuadrón'"
+  (save)="onSave()"
+  (cancel)="onCancel()"
+>
+  <form [formGroup]="unitForm" class="p-fluid">
+    <app-input-field
+      label="Codigo"
+      icon="pi pi-user"
+      placeholder="Ingresa el codigo"
+      [required]="true"
+      [control]="codeControl"
+    ></app-input-field>
+  </form>
+</app-modal>

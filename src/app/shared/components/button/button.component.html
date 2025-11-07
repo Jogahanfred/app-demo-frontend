@@ -1,0 +1,32 @@
+<button
+  pButton
+  [severity]="severity"
+  [class.w-full]="fullWidth"
+  [disabled]="disabled || loading"
+  (click)="onClick()"
+  class="flex align-items-center justify-content-center gap-2"
+>
+  <!-- Icono izquierdo -->
+  <i
+    *ngIf="!loading && icon && iconPosition === 'left'"
+    [class]="icon"
+    style="font-size: 1rem"
+  ></i>
+
+  <!-- Loader -->
+  <i
+    *ngIf="loading"
+    class="pi pi-spin pi-spinner"
+    style="font-size: 1rem"
+  ></i>
+
+  <!-- Texto -->
+  <span *ngIf="label">{{ label }}</span>
+
+  <!-- Icono derecho -->
+  <i
+    *ngIf="!loading && icon && iconPosition === 'right'"
+    [class]="icon"
+    style="font-size: 1rem"
+  ></i>
+</button>

@@ -1,0 +1,34 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="title"
+  [modal]="true"
+  [style]="{ width: width }"
+  [closable]="closable"
+  (onHide)="onHide()"
+>
+  <!-- 🧩 Contenido dinámico -->
+  <ng-content></ng-content>
+
+  <!-- ✅ Footer opcional -->
+  <ng-template pTemplate="footer" *ngIf="showFooter">
+    <div class="flex justify-content-end gap-2">
+      <button
+        pButton
+        type="button"
+        label="{{ cancelLabel }}"
+        severity="secondary"
+        (click)="onHide()"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        [label]="saving ? 'Guardando...' : saveLabel"
+        [icon]="saving ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+        [disabled]="saveDisabled || saving"
+        severity="primary"
+        (click)="onSave()"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>
