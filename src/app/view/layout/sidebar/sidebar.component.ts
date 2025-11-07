@@ -34,12 +34,7 @@ export class SidebarComponent implements OnChanges {
     { label: 'Usuarios', icon: 'pi pi-users', route: '/usuarios' },
     { label: 'Registra Mision', icon: 'pi pi-chart-bar', route: 'views/mission-register' },
     { label: 'Generar Mision', icon: 'pi pi-file', route: 'views/mission-generate' },
-    { label: 'Escuadron', icon: 'pi pi-calendar', route: 'views/squadron' },
-    { label: 'Mensajes', icon: 'pi pi-envelope', route: '/mensajes' },
-    { label: 'Escuadron', icon: 'pi pi-calendar', route: 'views/squadron' },
-    { label: 'Mensajes', icon: 'pi pi-envelope', route: '/mensajes' },
-    { label: 'Escuadron', icon: 'pi pi-calendar', route: 'views/squadron' },
-    { label: 'Mensajes', icon: 'pi pi-envelope', route: '/mensajes' },
+    { label: 'Unidad', icon: 'pi pi-calendar', route: 'views/unit' }, 
     { label: 'Escuadron', icon: 'pi pi-calendar', route: 'views/squadron' },
     { label: 'Mensajes', icon: 'pi pi-envelope', route: '/mensajes' },
     { label: 'Configuración', icon: 'pi pi-cog', route: 'views/configuration' }

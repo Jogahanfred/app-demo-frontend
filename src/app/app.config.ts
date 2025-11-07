@@ -1,5 +1,9 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router'; 
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
@@ -9,11 +13,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import customPreset from '../core/config/custom-preset';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withFetch() ),
+    provideHttpClient(withFetch()),
     provideRouter(routes),
     provideAnimations(),
     providePrimeNG({
@@ -22,6 +27,9 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     MessageService,
-    ToastModule
+    importProvidersFrom(
+      ToastModule,
+      NgxSpinnerModule.forRoot({ type: 'ball-pulse' })
+    ),
   ],
 };

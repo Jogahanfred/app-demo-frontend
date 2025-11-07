@@ -1,6 +1,4 @@
-@if(loading){
-<app-spinner></app-spinner>
-}
+<app-spinner [show]="loading()"></app-spinner>
 <div class="card">
   <div class="flex gap-3 mb-3 justify-content-end flex-wrap">
     <button pButton severity="success" class="w-full md:w-auto">
@@ -21,6 +19,7 @@
           <input
             type="text"
             pInputText
+            (input)="onGlobalFilter(dt, $event)"
             placeholder="Buscar..."
             class="w-full"
           />
@@ -45,13 +44,22 @@
     </div>
 
     <p-table
-      [value]="customers"
+      #dt
+      [value]="units()"
       [paginator]="true"
-      [rows]="5"
+      [rows]="size()"
+      [totalRecords]="totalRecords"
+      [lazy]="true"
+      (onPage)="onPageChange($event)"
+      [globalFilterFields]="['coAbbreviation']"
+      [rowHover]="true"
+      [size]="'small'"
+      stripedRows
+      dataKey="id"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} escuadrones"
       [showCurrentPageReport]="true"
-      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} resultados"
-      [tableStyle]="{ 'min-width': '50rem' }"
       [rowsPerPageOptions]="[5, 10, 20]"
+      [tableStyle]="{ 'min-width': '50rem' }"
     >
       <ng-template #header>
         <tr>
@@ -63,18 +71,30 @@
           <th style="width: 25%; letter-spacing: -1px">ACCIONES</th>
         </tr>
       </ng-template>
-      <ng-template #body let-customer>
+      <ng-template #body let-unit>
         <tr>
-          <td>{{ customer.name }}</td>
-          <td>{{ customer.country.name }}</td>
-          <td>{{ customer.company }}</td>
-          <td>{{ customer.representative.name }}</td>
-          <td>
-            <!-- <p-badge [value]="'Activo'" severity="success" /> -->
+          <td>{{ unit.nuCode }}</td>
+          <td>{{ unit.coAbbreviation }}</td>
+          <td>{{ unit.txDescription }}</td>
+          <td>{{ unit.nuLevel }}</td>
+          <!-- <td>
             <p-chip label="Activo" class="chip-activo" />
+          </td> -->
+          <td style="text-align: center">
+            <p-tag
+              [value]="unit.flState ? 'ACTIVO' : 'INACTIVO'"
+              [severity]="getSeverity(unit.flState)"
+            />
           </td>
           <td class="text-center">
             <i class="fa fa-edit fa-lg" style="cursor: pointer"></i>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-unit>
+        <tr>
+          <td [attr.colspan]="7" style="min-width: 8rem; text-align: center">
+            No se encontró algún items en nuestra Base de Datos
           </td>
         </tr>
       </ng-template>

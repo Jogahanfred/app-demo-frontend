@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { BadgeModule } from 'primeng/badge';
 import { ChipModule } from 'primeng/chip';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-squadron',
@@ -25,12 +26,15 @@ import { ChipModule } from 'primeng/chip';
     ToggleSwitch,
     ButtonModule,
     SelectModule,
-    BadgeModule,ChipModule
+    BadgeModule,
+    ChipModule,
+    SpinnerComponent,
   ],
   templateUrl: './squadron.component.html',
   styleUrl: './squadron.component.css',
 })
 export class SquadronComponent {
+  loading: boolean = false;
   referencias: any[] = [
     { name: 'Código', code: 'CO' },
     { name: 'Nombre', code: 'NO' },
