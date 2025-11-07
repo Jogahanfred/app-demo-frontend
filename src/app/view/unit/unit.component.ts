@@ -27,15 +27,9 @@ import {
   styleUrls: ['./unit.component.css'],
   imports: [
     CommonModule,
-    FormsModule,
-    TableModule,
+    FormsModule, 
     CardModule,
-    ButtonModule,
-    InputTextModule,
-    SelectModule,
-    BadgeModule,
-    ChipModule,
-    TagModule,
+    ButtonModule,   
     SpinnerComponent,
     TableComponent,
   ],
@@ -58,10 +52,11 @@ export class UnitComponent implements OnInit {
 
   // Columnas de la tabla
   columns: TableColumn[] = [
-    { field: 'nuCode', header: 'CÓDIGO DE BARRAS' },
-    { field: 'coAbbreviation', header: 'REFERENCIA' },
-    { field: 'txDescription', header: 'NOMBRE' },
-    { field: 'nuLevel', header: 'DATOS', align: 'center' },
+    { field: 'nuCode', header: 'CÓDIGO' },
+    { field: 'coAbbreviation', header: 'SIGLA' },
+    { field: 'txDescription', header: 'DESCRIPCIÓN' },
+    { field: 'nuLevel', header: 'NIVEL', align: 'center' },
+    { field: 'nuRectorCode', header: 'CÓDIGO RECTOR', align: 'center' },
     {
       field: 'flStatus',
       header: 'ESTADO',
