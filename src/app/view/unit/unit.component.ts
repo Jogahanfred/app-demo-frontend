@@ -49,10 +49,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ToastModule,
     ConfirmDialogModule,
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [ConfirmationService, MessageService, ToastService],
 })
 export class UnitComponent implements OnInit {
-  private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly unitService = inject(UnitService);
   private readonly fb = inject(FormBuilder);
@@ -200,13 +199,8 @@ export class UnitComponent implements OnInit {
       )
       .subscribe({
         next: (res: Response) => {
-          this.toastService.showSuccess(
-            'Éxito',
-            res.message ||
-              (this.editingUnit
-                ? 'Registro editado correctamente.'
-                : 'Registro guardado correctamente.')
-          );
+          console.log(res);
+          this.toastService.showSuccess('Éxito', res.message);
           this.showModal.set(false);
           this.loadUnits();
           this.editingUnit = null;
@@ -214,12 +208,7 @@ export class UnitComponent implements OnInit {
         },
         error: (err: any) => {
           console.error('Error al guardar la unidad:', err);
-          this.toastService.showError(
-            'Error',
-            err?.error?.message ||
-              err?.message ||
-              'Ocurrió un problema al guardar el registro.'
-          );
+          this.toastService.showError('Error', err.error.message);
         },
       });
   }
@@ -240,16 +229,13 @@ export class UnitComponent implements OnInit {
           .deleteUnit(unit.nuUnitId!)
           .pipe(finalize(() => this.loading.set(false)))
           .subscribe({
-            next: () => {
-              this.toastService.showSuccess(
-                'Éxito',
-                'Unidad eliminada correctamente.'
-              );
+            next: (res: Response) => {
+              this.toastService.showSuccess('Éxito', res.message);
               this.loadUnits();
             },
             error: (err) => {
               console.error('Error al eliminar la unidad:', err.error);
-              this.toastService.showError('Error', err.message);
+              this.toastService.showError('Error', err.error.message);
             },
           });
       },
