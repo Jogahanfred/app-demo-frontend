@@ -1,0 +1,46 @@
+.terminos-container {
+  padding: 4rem 1rem;
+  background-color: var(--surface-ground);
+  min-height: 100vh;
+}
+
+p-card {
+  padding: 2rem;
+  background: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  border-left: 4px solid var(--primary-color);
+  padding-left: 10px;
+}
+
+p {
+  margin-top: 0.5rem;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  p-card {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+}

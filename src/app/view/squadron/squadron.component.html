@@ -1,0 +1,80 @@
+<div class="card">
+  <div class="flex gap-3 mb-3 justify-content-end flex-wrap">
+    <button pButton severity="success" class="w-full md:w-auto">
+      <i class="pi pi-file-excel" pButtonIcon></i>
+      <span pButtonLabel>Exportar a Excel</span>
+    </button>
+
+    <button pButton class="w-full md:w-auto">
+      <i class="pi pi-file-plus" pButtonIcon></i>
+      <span pButtonLabel>Crear escuadrón</span>
+    </button>
+  </div>
+  <p-card>
+    <div class="grid mb-3"> 
+      <div class="col-12 md:col-4">
+        <p-iconField class="w-full">
+          <p-inputIcon class="pi pi-search"></p-inputIcon>
+          <input
+            type="text"
+            pInputText
+            placeholder="Buscar..."
+            class="w-full"
+          />
+        </p-iconField>
+      </div>
+ 
+      <div class="col-12 md:col-4 lg:col-3">
+        <p-select
+          [options]="referencias"
+          optionLabel="name"
+          placeholder="Referencia"
+          class="w-full md:w-56"
+        ></p-select>
+      </div>
+ 
+      <div class="col-12 md:col-4 flex align-items-center">
+        <div class="flex gap-3">
+          <p-toggleswitch />
+          <p>Todos los items</p>
+        </div>
+      </div>
+    </div>
+
+    <p-table
+      [value]="customers"
+      [paginator]="true"
+      [rows]="5"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} resultados"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template #header>
+        <tr>
+          <th style="width: 25%; letter-spacing: -1px">CÓDIGO DE BARRAS</th>
+          <th style="width: 25%; letter-spacing: -1px">REFERENCIA</th>
+          <th style="width: 25%; letter-spacing: -1px">NOMBRE</th>
+          <th style="width: 25%; letter-spacing: -1px">DATOS</th>
+          <th style="width: 25%; letter-spacing: -1px">ESTADO</th>
+          <th style="width: 25%; letter-spacing: -1px">ACCIONES</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-customer>
+        <tr>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.country.name }}</td>
+          <td>{{ customer.company }}</td>
+          <td>{{ customer.representative.name }}</td>
+          <td>
+            <!-- <p-badge [value]="'Activo'" severity="success" /> -->
+            <p-chip label="Activo" class="chip-activo" />
+          </td>
+          <td class="text-center">
+            <i class="fa fa-edit fa-lg" style="cursor: pointer"></i>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>

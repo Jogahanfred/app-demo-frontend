@@ -2,9 +2,64 @@
   <div class="footer-content">
     <p>&copy; {{ currentYear }} Jogahanfred. Todos los derechos reservados.</p>
     <div class="footer-links">
-      <a href="#">Términos</a>
+      <a href="#" (click)="showDialog($event)">Términos</a>
       <a href="#">Privacidad</a>
       <a href="#">Contacto</a>
     </div>
   </div>
 </footer>
+<div class="card flex justify-center">
+  <p-dialog
+    header="Términos y Condiciones"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [maximizable]="true"
+  >
+    <div class="flex justify-content-end mb-3">
+      <p-badge
+        value="Última actualización: 6 de noviembre de 2025"
+        [severity]="'warn'"
+        [badgeSize]="'large'"
+      />
+    </div>
+    <p-divider />
+    <h3>1. Aceptación de los términos</h3>
+    <p>
+      Al acceder o utilizar este sitio web, usted acepta cumplir con estos
+      Términos y Condiciones y todas las leyes y regulaciones aplicables. Si no
+      está de acuerdo con alguno de estos términos, tiene prohibido usar o
+      acceder a este sitio.
+    </p>
+    <p-divider />
+    <h3>2. Uso del sitio</h3>
+    <p>
+      Usted se compromete a utilizar este sitio únicamente para fines legales y
+      de manera que no infrinja los derechos de terceros ni restrinja o impida
+      su uso del sitio.
+    </p>
+    <p-divider />
+    <h3>3. Propiedad intelectual</h3>
+    <p>
+      Todo el contenido incluido en este sitio (textos, gráficos, logotipos,
+      íconos, imágenes, clips de audio, descargas digitales y software) es
+      propiedad de <strong>[Jogahanfred]</strong> o sus proveedores de
+      contenido, y está protegido por las leyes de derechos de autor.
+    </p>
+    <p-divider />
+    <h3>4. Modificaciones</h3>
+    <p>
+      <strong>[Jogahanfred]</strong> se reserva el derecho de modificar estos
+      términos en cualquier momento. Las modificaciones entrarán en vigor
+      inmediatamente después de su publicación en el sitio web.
+    </p>
+    <p-divider />
+    <h3>4. Contacto</h3>
+    <p>
+      Si tienes alguna pregunta sobre estos Términos y Condiciones, puedes
+      contactarnos en:
+      <a href="mailto:anderssonml050796@gmail.com">anderssonml050796@gmail.com</a>.
+    </p>
+  </p-dialog>
+</div>

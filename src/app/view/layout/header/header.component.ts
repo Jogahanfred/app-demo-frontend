@@ -1,9 +1,12 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [
+    NavComponent
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
