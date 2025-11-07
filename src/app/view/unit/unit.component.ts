@@ -32,6 +32,7 @@ import {
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { InputFieldComponent } from '../../shared/components/input-field/input-field.component';
+import { SelectFieldComponent } from '../../shared/components/select-field/select-field.component';
 
 @Component({
   selector: 'app-unit',
@@ -48,6 +49,7 @@ import { InputFieldComponent } from '../../shared/components/input-field/input-f
     TableComponent,
     ModalComponent,
     InputFieldComponent,
+    SelectFieldComponent
   ],
 })
 export class UnitComponent implements OnInit {
@@ -109,8 +111,37 @@ export class UnitComponent implements OnInit {
     { label: 'Nombre', field: 'txDescription' },
   ];
 
-  get codeControl(): FormControl {
+  statusOptions = [
+    { label: 'Activo', value: 'ACTIVE' },
+    { label: 'Inactivo', value: 'INACTIVE' },
+  ];
+
+  get nuCodeControl(): FormControl {
     return this.unitForm.get('nuCode') as FormControl;
+  }
+
+  get coAbbreviationControl(): FormControl {
+    return this.unitForm.get('coAbbreviation') as FormControl;
+  }
+
+  get txDescriptionControl(): FormControl {
+    return this.unitForm.get('txDescription') as FormControl;
+  }
+
+  get nuLevelControl(): FormControl {
+    return this.unitForm.get('nuLevel') as FormControl;
+  }
+
+  get nuRectorCodeControl(): FormControl {
+    return this.unitForm.get('nuRectorCode') as FormControl;
+  }
+
+  get flStatusControl(): FormControl {
+    return this.unitForm.get('flStatus') as FormControl;
+  }
+
+  get txImagePathControl(): FormControl {
+    return this.unitForm.get('txImagePath') as FormControl;
   }
 
   ngOnInit() {
@@ -122,9 +153,16 @@ export class UnitComponent implements OnInit {
   /** Inicializar formulario */
   private initForm(): void {
     this.unitForm = this.fb.group({
-      nuCode: ['', [Validators.required, Validators.minLength(3)]],
-      txDescription: ['', [Validators.required, Validators.maxLength(20)]],
+      nuCode: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.min(100)],
+      ],
+      coAbbreviation: ['', [Validators.required, Validators.maxLength(5)]],
+      txDescription: ['', [Validators.required, Validators.maxLength(5)]],
+      nuLevel: ['', [Validators.required]],
+      nuRectorCode: ['', [Validators.required]],
       flStatus: ['ACTIVE', Validators.required],
+      txImagePath: ['', [Validators.maxLength(255)]],
     });
   }
 
@@ -134,7 +172,8 @@ export class UnitComponent implements OnInit {
     this.showModal = true;
 
     if (editMode && data) {
-      this.unitForm.patchValue(data);
+      this.unitForm.patchValue(data); 
+      console.log("edit:", this.unitForm.getRawValue())
     } else {
       this.unitForm.reset({ flStatus: 'ACTIVE' });
     }

@@ -39,13 +39,64 @@
   (save)="onSave()"
   (cancel)="onCancel()"
 >
-  <form [formGroup]="unitForm" class="p-fluid">
+  <form [formGroup]="unitForm" class="p-fluid space-y-3">
+    <div class="flex gap-3">
+      <div class="flex-1">
+        <app-input-field
+          label="Código"
+          icon="pi pi-user"
+          placeholder="Ingrese el código"
+          [control]="nuCodeControl"
+        ></app-input-field>
+      </div>
+      <div class="flex-1">
+        <app-input-field
+          label="Sigla"
+          icon="pi pi-user"
+          placeholder="Ingrese la sigla"
+          [control]="coAbbreviationControl"
+        ></app-input-field>
+      </div>
+    </div>
+
+    <div class="flex gap-3">
+      <div class="flex-1">
+        <app-input-field
+          label="Nivel"
+          icon="pi pi-list"
+          placeholder="Ingrese el nivel"
+          [control]="nuLevelControl"
+        ></app-input-field>
+      </div>
+      <div class="flex-1">
+        <app-input-field
+          label="Código Rector"
+          icon="pi pi-id-card"
+          placeholder="Ingrese código rector"
+          [control]="nuRectorCodeControl"
+        ></app-input-field>
+      </div>
+    </div>
+
     <app-input-field
-      label="Codigo"
-      icon="pi pi-user"
-      placeholder="Ingresa el codigo"
-      [required]="true"
-      [control]="codeControl"
+      label="Descripción"
+      icon="pi pi-pencil"
+      placeholder="Ingrese la descripción"
+      [control]="txDescriptionControl"
+    ></app-input-field>
+
+    <app-select-field
+      label="Estado"
+      placeholder="Seleccione un estado"
+      [control]="flStatusControl"
+      [options]="statusOptions"
+    ></app-select-field>
+
+    <app-input-field
+      label="Ruta de Imagen"
+      icon="pi pi-image"
+      placeholder="Ingrese ruta de imagen"
+      [control]="txImagePathControl"
     ></app-input-field>
   </form>
 </app-modal>

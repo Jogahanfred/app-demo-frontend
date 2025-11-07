@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
   FormControl,
   ReactiveFormsModule,
   NG_VALIDATORS,
+  Validator,
+  ValidationErrors,
 } from '@angular/forms';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -16,7 +18,13 @@ import { InputTextModule } from 'primeng/inputtext';
   templateUrl: './input-field.component.html',
   styleUrls: ['./input-field.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, InputIcon, IconFieldModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    InputIcon,
+    IconFieldModule,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -27,48 +35,101 @@ import { InputTextModule } from 'primeng/inputtext';
       provide: NG_VALIDATORS,
       useExisting: forwardRef(() => InputFieldComponent),
       multi: true,
-    }
+    },
   ],
 })
-export class InputFieldComponent implements ControlValueAccessor {
-  // --- Inputs configurables ---
-  @Input() label: string = '';
-  @Input() icon: string = '';
-  @Input() placeholder: string = '';
+export class InputFieldComponent
+  implements ControlValueAccessor, Validator, OnInit
+{
+  @Input() label = '';
+  @Input() icon = '';
+  @Input() placeholder = '';
   @Input() type: 'text' | 'email' | 'number' = 'text';
-  @Input() required: boolean = false;
+  @Input() required = false;
 
-  // Recibe el FormControl desde el formulario padre
   @Input() control?: FormControl;
 
-  // --- Valor interno del componente ---
-  value: any = '';
+  value: string = '';
+  disabled = false;
 
-  // --- Funciones de ControlValueAccessor ---
   onChange: (_: any) => void = () => {};
   onTouched: () => void = () => {};
 
-  // --- Actualiza el valor y notifica al formulario ---
+  ngOnInit() {
+    if (this.control) {
+      // Inicializar el valor
+      this.value = this.control.value ?? '';
+
+      // Inicializar el estado disabled desde el FormControl
+      this.disabled = this.control.disabled;
+
+      // Suscribirse a cambios de valor
+      this.control.valueChanges.subscribe((val) => {
+        this.value = val;
+      });
+
+      // Suscribirse a cambios de estado (enabled/disabled)
+      this.control?.statusChanges?.subscribe(() => {
+        this.disabled = this.control?.disabled ?? false;
+      });
+    }
+  }
+
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+
+    // Actualiza el ControlValueAccessor
     this.onChange(this.value);
+
+    // Actualiza el FormControl directamente
+    if (this.control) {
+      this.control.setValue(this.value);
+      this.control.markAsDirty();
+      this.control.markAsTouched();
+    }
   }
 
-  // --- ControlValueAccessor ---
+  onBlur() {
+    this.onTouched();
+    this.control?.markAsTouched();
+  }
+
+  // ControlValueAccessor
   writeValue(value: any): void {
     this.value = value ?? '';
   }
-
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
-
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Opcional: habilitar/deshabilitar el input
+    this.disabled = isDisabled;
+
+    // También sincronizamos con el control si existe
+    if (this.control) {
+      if (isDisabled) {
+        this.control.disable({ emitEvent: false });
+      } else {
+        this.control.enable({ emitEvent: false });
+      }
+    }
+  }
+
+  get isRequired(): boolean {
+    if (!this.control || !this.control.validator) return false;
+
+    // Crear un control temporal para testear el validator
+    const validator = this.control.validator({} as FormControl);
+    return validator ? validator['required'] === true : false;
+  }
+
+  // Validator
+  validate(): ValidationErrors | null {
+    if (!this.control) return null;
+    return this.control.invalid ? this.control.errors : null;
   }
 }
