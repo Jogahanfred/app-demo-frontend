@@ -1,0 +1,13 @@
+.chip-activo {
+  background-color: #22c55e;  
+  color: white;
+  font-weight: 600;
+  font-size: .8rem;
+}
+
+.chip-inactivo {
+  background-color: #dc3545;  
+  color: white;
+  font-weight: 600;
+  font-size: .8rem;
+}

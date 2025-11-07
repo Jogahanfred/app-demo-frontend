@@ -1,0 +1,129 @@
+<div
+  class="grid mb-3"
+  *ngIf="showGlobalFilter || filterFields?.length || showStatusToggle"
+>
+  <!-- Buscador -->
+  <div class="col-12 md:col-4" *ngIf="showGlobalFilter">
+    <p-iconField class="w-full">
+      <p-inputIcon class="pi pi-search"></p-inputIcon>
+      <input
+        type="text"
+        pInputText
+        placeholder="Buscar..."
+        class="w-full"
+        [(ngModel)]="globalFilter"
+        (input)="applyFilter()"
+      />
+    </p-iconField>
+  </div>
+
+  <div class="col-12 md:col-4 lg:col-3" *ngIf="filterFields?.length">
+    <p-select
+      [options]="filterFields"
+      optionLabel="label"
+      placeholder="Seleccionar campo"
+      class="w-full md:w-56"
+      [(ngModel)]="selectedFilterField"
+      (onChange)="applyFilter()"
+    ></p-select>
+  </div>
+
+  <!-- Toggle para estado -->
+  <div class="col-12 md:col-4 flex align-items-center" *ngIf="showStatusToggle">
+    <div class="flex gap-3">
+      <p-toggleswitch
+        [(ngModel)]="statusFilter"
+        (onChange)="applyFilter()"
+      ></p-toggleswitch>
+      <p>Solo activos</p>
+    </div>
+  </div>
+</div>
+
+<p-table
+  [value]="data"
+  [paginator]="true"
+  [rows]="rows"
+  [totalRecords]="totalRecords"
+  [lazy]="true"
+  currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros."
+  (onPage)="onPageChange.emit($event)"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[5, 10, 20]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        *ngFor="let col of columns"
+        [ngStyle]="{ 'text-align': col.align || 'left' }"
+      >
+        {{ col.header }}
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      <td
+        *ngFor="let col of columns"
+        [ngStyle]="{ 'text-align': col.align || 'left' }"
+      >
+        <ng-container [ngSwitch]="col.type">
+          <ng-container *ngSwitchCase="'chip'">
+            <p-chip
+              [label]="
+                row[col.field] === 'ACTIVE'
+                  ? col.chipOptions?.activeValue
+                  : col.chipOptions?.inactiveValue
+              "
+              [class]="
+                row[col.field] === 'ACTIVE' ? 'chip-activo' : 'chip-inactivo'
+              "
+            >
+            </p-chip>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'icon'">
+            <button
+              *ngFor="let action of col.iconOptions"
+              pButton
+              type="button"
+              icon="{{ action.icon }}"
+              class="p-button-text"
+              [ngClass]="{
+                'icon-edit': action.action === 'edit',
+                'icon-delete': action.action === 'delete',
+                'icon-view': action.action === 'view'
+              }"
+              (click)="actionClicked.emit({ action: action.action, row })"
+              pTooltip="{{ action.tooltip }}"
+              tooltipPosition="top"
+            ></button>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'date'">
+            {{
+              row[col.field]
+                ? (row[col.field] | date : col.dateFormat || "dd/MM/yyyy")
+                : "-"
+            }}
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            {{ row[col.field] }}
+          </ng-container>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td
+        [attr.colspan]="columns.length"
+        style="text-align: center; padding: 1rem"
+      >
+        No se encontraron registros en nuestra Base de Datos.
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,25 @@
+.chip-activo {
+  background-color: #22c55e;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.chip-inactivo {
+  background-color: #dc3545;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.icon-edit {
+  color: #4caf50;
+}
+
+.icon-delete {
+  color: #f44336;
+}
+
+.icon-view {
+  color: #2196f3;
+}

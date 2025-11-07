@@ -12,92 +12,16 @@
     </button>
   </div>
   <p-card>
-    <div class="grid mb-3">
-      <div class="col-12 md:col-4">
-        <p-iconField class="w-full">
-          <p-inputIcon class="pi pi-search"></p-inputIcon>
-          <input
-            type="text"
-            pInputText
-            (input)="onGlobalFilter(dt, $event)"
-            placeholder="Buscar..."
-            class="w-full"
-          />
-        </p-iconField>
-      </div>
-
-      <div class="col-12 md:col-4 lg:col-3">
-        <p-select
-          [options]="referencias"
-          optionLabel="name"
-          placeholder="Referencia"
-          class="w-full md:w-56"
-        ></p-select>
-      </div>
-
-      <div class="col-12 md:col-4 flex align-items-center">
-        <div class="flex gap-3">
-          <p-toggleswitch />
-          <p>Todos los items</p>
-        </div>
-      </div>
-    </div>
-
-    <p-table
-      #dt
-      [value]="units()"
-      [paginator]="true"
+    <app-table
+      [data]="units()"
+      [columns]="columns"
       [rows]="size()"
       [totalRecords]="totalRecords"
-      [lazy]="true"
-      (onPage)="onPageChange($event)"
-      [globalFilterFields]="['coAbbreviation']"
-      [rowHover]="true"
-      [size]="'small'"
-      stripedRows
-      dataKey="id"
-      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} escuadrones"
-      [showCurrentPageReport]="true"
-      [rowsPerPageOptions]="[5, 10, 20]"
-      [tableStyle]="{ 'min-width': '50rem' }"
-    >
-      <ng-template #header>
-        <tr>
-          <th style="width: 25%; letter-spacing: -1px">CÓDIGO DE BARRAS</th>
-          <th style="width: 25%; letter-spacing: -1px">REFERENCIA</th>
-          <th style="width: 25%; letter-spacing: -1px">NOMBRE</th>
-          <th style="width: 25%; letter-spacing: -1px">DATOS</th>
-          <th style="width: 25%; letter-spacing: -1px">ESTADO</th>
-          <th style="width: 25%; letter-spacing: -1px">ACCIONES</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-unit>
-        <tr>
-          <td>{{ unit.nuCode }}</td>
-          <td>{{ unit.coAbbreviation }}</td>
-          <td>{{ unit.txDescription }}</td>
-          <td>{{ unit.nuLevel }}</td>
-          <!-- <td>
-            <p-chip label="Activo" class="chip-activo" />
-          </td> -->
-          <td style="text-align: center">
-            <p-tag
-              [value]="unit.flState ? 'ACTIVO' : 'INACTIVO'"
-              [severity]="getSeverity(unit.flState)"
-            />
-          </td>
-          <td class="text-center">
-            <i class="fa fa-edit fa-lg" style="cursor: pointer"></i>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage" let-unit>
-        <tr>
-          <td [attr.colspan]="7" style="min-width: 8rem; text-align: center">
-            No se encontró algún items en nuestra Base de Datos
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+      [filterFields]="referencias"
+      [showGlobalFilter]="true"
+      [showStatusToggle]="true"
+      (actionClicked)="handleAction($event)"
+      (onPageChange)="onPageChange($event)"
+      (onFilterChange)="onFilterTable($event)"/> 
   </p-card>
 </div>

@@ -5,19 +5,21 @@ import { Table, TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputIcon } from 'primeng/inputicon';
-import { IconField } from 'primeng/iconfield';
-import { ToggleSwitch } from 'primeng/toggleswitch';
 import { SelectModule } from 'primeng/select';
 import { ChipModule } from 'primeng/chip';
 import { BadgeModule } from 'primeng/badge';
+import { TagModule } from 'primeng/tag';
 import { finalize } from 'rxjs';
 
 import { UnitService } from '../../shared/http/unit.service';
 import { Response } from '../../core/interface/response.interface';
 import { Unit } from '../../shared/interface/unit.interface';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
-import { TagModule } from 'primeng/tag';
+import {
+  TableComponent,
+  TableColumn,
+} from '../../shared/components/table/table.component';
+
 @Component({
   selector: 'app-unit',
   standalone: true,
@@ -30,88 +32,102 @@ import { TagModule } from 'primeng/tag';
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputIcon,
-    IconField,
-    ToggleSwitch,
     SelectModule,
     BadgeModule,
     ChipModule,
-    SpinnerComponent,
     TagModule,
+    SpinnerComponent,
+    TableComponent,
   ],
 })
 export class UnitComponent implements OnInit {
-  // ✅ signals
+  // Signals
   public loading = signal(false);
   public units = signal<Unit[]>([]);
-
-  // ✅ Estado de paginación / filtro
   public page = signal(1);
   public size = signal(5);
-  public totalRecords = 0;
   public filter = signal('');
 
-  // ✅ referencia a la tabla
+  // Properties
+  public totalRecords = 0;
+  public selectedField?: string;
+  public statusOnly = false;
+  public selectedUnits?: Unit[] | null;
+
   @ViewChild('dt') dt!: Table;
 
-  private readonly unitService = inject(UnitService);
-
-  referencias = [
-    { name: 'Código', code: 'CO' },
-    { name: 'Nombre', code: 'NO' },
+  // Columnas de la tabla
+  columns: TableColumn[] = [
+    { field: 'nuCode', header: 'CÓDIGO DE BARRAS' },
+    { field: 'coAbbreviation', header: 'REFERENCIA' },
+    { field: 'txDescription', header: 'NOMBRE' },
+    { field: 'nuLevel', header: 'DATOS', align: 'center' },
+    {
+      field: 'flStatus',
+      header: 'ESTADO',
+      type: 'chip',
+      chipOptions: { activeValue: 'ACTIVO', inactiveValue: 'INACTIVO' },
+      align: 'center',
+    },
+    {
+      field: 'actions',
+      header: 'ACCIONES',
+      type: 'icon',
+      iconOptions: [
+        { icon: 'pi pi-pencil', tooltip: 'Editar', action: 'edit' },
+        { icon: 'pi pi-eye', tooltip: 'Ver', action: 'view' },
+        { icon: 'pi pi-trash', tooltip: 'Eliminar', action: 'delete' },
+      ],
+      align: 'center',
+    },
   ];
 
-  selectedUnits!: Unit[] | null;
+  // Opciones de filtro por campo
+  referencias = [
+    { label: 'Código', field: 'coAbbreviation' },
+    { label: 'Nombre', field: 'txDescription' },
+  ];
+
+  // Services
+  private readonly unitService = inject(UnitService);
 
   ngOnInit() {
-    // Escucha cambios del servicio
     this.unitService.getUnitChange().subscribe(() => this.loadUnits());
-
-    // Carga inicial
     this.loadUnits();
   }
 
+  /** Carga los datos de la tabla */
   loadUnits() {
     this.loading.set(true);
-
     this.unitService
       .getPageUnitsInit(this.page(), this.size(), this.filter())
-      .pipe(
-        finalize(() => {
-          this.loading.set(false);
-        })
-      )
+      .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (response: Response) => {
           this.units.set(response.data.content);
           this.totalRecords = response.data.totalElements;
         },
-        error: (err) => {
-          this.loading.set(false);
-          console.error('Error al cargar unidades', err);
-        },
+        error: (err) => console.error('Error al cargar unidades', err),
       });
   }
 
-  onGlobalFilter(table: Table, event: Event) {
-    this.filter.set((event.target as HTMLInputElement).value);
-    this.page.set(1);
-    this.loadUnits();
+  /** Acción sobre botones de la tabla */
+  handleAction(event: { action: string; row: Unit }) {
+    console.log('Acción de tabla:', event);
   }
 
-  onPageChange(event: any) {
+  /** Cambio de paginador */
+  onPageChange(event: any): void {
     this.page.set(event.first / event.rows + 1);
     this.size.set(event.rows);
     this.loadUnits();
   }
-  getSeverity(status: string) {
-    switch (status) {
-      case 'true':
-        return 'success';
-      case 'false':
-        return 'danger';
-      default:
-        return 'info';
-    }
+
+  /** Filtro personalizado de tabla */
+  onFilterTable(event: { field?: string; value: string; status?: boolean }) {
+    this.filter.set(event.value);
+    this.selectedField = event.field;
+    this.statusOnly = event.status || false;
+    this.loadUnits();
   }
 }
