@@ -9,16 +9,19 @@
     <button class="hamburger-btn" (click)="toggleSidebar()">
       <i class="pi pi-bars"></i>
     </button>
-  </div>
-  <div class="">
-    <app-nav></app-nav>
-  </div>
-
+  </div> 
   <div class="navbar-right">
     <div class="user-info">
-      <span class="user-name">{{ user.name }}</span> 
       <div class="user-avatar">
-        <img src="/assets/images/perfil.jpg" alt="perfil" style="width: 100%; border-radius: 50%;" />
+        <img
+          src="/assets/images/perfil.jpg"
+          alt="perfil"
+          style="width: 100%; border-radius: 50%"
+        />
+      </div>
+      <div class="flex flex-column px-2">
+        <span class="user-name">{{ user.name }}</span>
+        <span style="font-size: 0.90rem; color: #64748b">Administrador</span>
       </div>
     </div>
     <button class="dropdown-btn" (click)="toggleDropdown()">

@@ -1,0 +1,351 @@
+<div class="animate__animated animate__fadeIn">
+  <p-card class="mb-3">
+    <div class="flex align-items-center">
+      <app-button
+        [routerLink]="'/views/panel-history'"
+        label="Volver"
+        icon="pi pi-arrow-left"
+        severity="primary"
+      ></app-button>
+
+      <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+    </div>
+  </p-card>
+  <p-card class="mb-3 shadow-2">
+    <div class="flex align-items-center gap-3 mb-3">
+      <p-avatar
+        shape="circle"
+        [image]="selectedLegajo.photo"
+        style="width: 10rem; height: 10rem"
+      ></p-avatar>
+      <div class="ml-3 flex flex-column justify-content-center">
+        <h3 class="text-primary font-bold text-3xl">
+          {{ selectedLegajo.rank }} {{ selectedLegajo.name }}
+        </h3>
+        <div class="text-primary font-bold my-2 text-lg">
+          {{ selectedLegajo.specializations }}
+        </div>
+        <div class="flex gap-5 text-color-secondary">
+          <div>
+            <i class="pi pi-user mr-2"></i>
+            <span class="font-bold">NSA:</span> {{ selectedLegajo.nsa }}
+          </div>
+          <div>
+            <i class="pi pi-user mr-2"></i>
+            <span class="font-bold">Grado:</span> {{ selectedLegajo.grade }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-card>
+  <p-card class="mb-3 shadow-2">
+    <div class="text-primary flex align-items-center mb-5">
+      <i class="pi pi-address-book mr-2" style="font-size: 1.5rem"></i>
+      <h2>Historial de Misiones</h2>
+    </div>
+    <div class="mb-3">
+      <app-table
+        [data]="history()"
+        [columns]="columns"
+        [rows]="size()"
+        [totalRecords]="totalRecords"
+        [filterFields]="referencias"
+        (actionClicked)="handleAction($event)"
+        (onPageChange)="onPageChange($event)"
+        (onFilterChange)="onFilterTable($event)"
+      ></app-table>
+    </div>
+  </p-card>
+  <p-card class="mb-3 shadow-2">
+    <div class="text-primary flex align-items-center mb-5">
+      <i class="pi pi-address-book mr-2" style="font-size: 1.5rem"></i>
+      <h2>Reconocimientos</h2>
+    </div>
+    <div class="mb-3">
+      <div class="mt-3 mx-4">
+        <div class="flex gap-2 align-items-center">
+          <i
+            class="pi pi-star-fill"
+            style="color: #e7e731; font-size: 1.7rem"
+          ></i>
+          <p-avatar
+            [image]="'assets/images/shields/logo-510.png'"
+            class="mx-2"
+            [shape]="'square'"
+          />
+          <span class="font-bold text-primary"
+            >PDI - Programa en el Aire (Año 2025)</span
+          >
+          <p>Medalla al Merito</p>
+        </div>
+        <p-divider />
+        <div class="flex gap-2 align-items-center">
+          <i
+            class="pi pi-star-fill"
+            style="color: #e7e731; font-size: 1.7rem"
+          ></i>
+          <p-avatar
+            [image]="'assets/images/shields/logo-511.png'"
+            class="mx-2"
+            [shape]="'square'"
+          />
+          <span class="font-bold text-primary"
+            >PDI - Programa en el Aire (Año 2025)</span
+          >
+          <p>Medalla al Merito</p>
+        </div>
+      </div>
+    </div>
+  </p-card>
+  <p-card class="mb-3 shadow-2">
+    <div class="text-primary flex align-items-center mb-5">
+      <i class="pi pi-chart-line mr-2" style="font-size: 1.5rem"></i>
+      <h2>Evaluaciones</h2>
+    </div>
+
+    <div class="flex gap-3 mb-3 flex-wrap justify-content-around">
+      <p-card [style]="{ width: '20rem', position: 'relative' }">
+        <div class="ribbon ribbon-instructor">Instructor</div>
+        <ng-template #title>
+          <div class="flex justify-content-between">Programa en el Aire</div>
+        </ng-template>
+
+        <ng-template #subtitle>
+          <div class="flex justify-content-between">
+            <span>PDI</span>
+            <p-tag value="2025" />
+          </div>
+        </ng-template>
+
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam repellat
+          libero asperiores earum nam nobis, culpa ratione quam perferendis
+          esse, cupiditate neque quas!
+        </p>
+
+        <ng-template #footer>
+          <div class="flex gap-4 mt-1">
+            <p-button
+              label="Puesto: 7"
+              severity="secondary"
+              class="w-full"
+              [outlined]="true"
+              (onClick)="openModal()"
+              styleClass="w-full"
+            />
+            <button pButton class="w-full" styleClass="w-full">
+              <i class="pi pi-eye" pButtonIcon></i>
+              <span pButtonLabel>Ver mas</span>
+            </button>
+          </div>
+        </ng-template>
+      </p-card>
+
+      <p-card [style]="{ width: '20rem', position: 'relative' }">
+        <div class="ribbon ribbon-alumno">Alumno</div>
+        <ng-template #title>
+          <div class="flex justify-content-between">
+            <span>Programa en el Aire</span>
+            <p-tag value="2025" />
+          </div>
+        </ng-template>
+        <ng-template #subtitle>
+          <div class="flex justify-content-between">PDI</div>
+        </ng-template>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam repellat
+          libero asperiores earum nam nobis, culpa ratione quam perferendis
+          esse, cupiditate neque quas!
+        </p>
+        <ng-template #footer>
+          <div class="flex gap-4 mt-1">
+            <p-button
+              label="Puesto: 7"
+              severity="secondary"
+              class="w-full"
+              [outlined]="true"
+              styleClass="w-full"
+            />
+            <button pButton class="w-full" styleClass="w-full">
+              <i class="pi pi-eye" pButtonIcon></i>
+              <span pButtonLabel>Ver mas</span>
+            </button>
+          </div>
+        </ng-template>
+      </p-card>
+
+      <p-card [style]="{ width: '20rem', position: 'relative' }">
+        <div class="ribbon ribbon-instructor">Instructor</div>
+        <ng-template #title>
+          <div class="flex justify-content-between">Programa en el Aire</div>
+        </ng-template>
+
+        <ng-template #subtitle>
+          <div class="flex justify-content-between">
+            <span>PDI</span>
+            <p-tag value="2025" />
+          </div>
+        </ng-template>
+
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam repellat
+          libero asperiores earum nam nobis, culpa ratione quam perferendis
+          esse, cupiditate neque quas!
+        </p>
+
+        <ng-template #footer>
+          <div class="flex gap-4 mt-1">
+            <p-button
+              label="Puesto: 7"
+              severity="secondary"
+              class="w-full"
+              [outlined]="true"
+              styleClass="w-full"
+            />
+            <button pButton class="w-full" styleClass="w-full">
+              <i class="pi pi-eye" pButtonIcon></i>
+              <span pButtonLabel>Ver mas</span>
+            </button>
+          </div>
+        </ng-template>
+      </p-card>
+
+      <p-card [style]="{ width: '20rem', position: 'relative' }">
+        <div class="ribbon ribbon-instructor">Instructor</div>
+        <ng-template #title>
+          <div class="flex justify-content-between">Programa en el Aire</div>
+        </ng-template>
+
+        <ng-template #subtitle>
+          <div class="flex justify-content-between">
+            <span>PDI</span>
+            <p-tag value="2025" />
+          </div>
+        </ng-template>
+
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam repellat
+          libero asperiores earum nam nobis, culpa ratione quam perferendis
+          esse, cupiditate neque quas!
+        </p>
+
+        <ng-template #footer>
+          <div class="flex gap-4 mt-1">
+            <p-button
+              label="Puesto: 7"
+              severity="secondary"
+              class="w-full"
+              [outlined]="true"
+              styleClass="w-full"
+            />
+            <button pButton class="w-full" styleClass="w-full">
+              <i class="pi pi-eye" pButtonIcon></i>
+              <span pButtonLabel>Ver mas</span>
+            </button>
+          </div>
+        </ng-template>
+      </p-card>
+
+      <p-card [style]="{ width: '20rem', position: 'relative' }">
+        <div class="ribbon ribbon-instructor">Instructor</div>
+        <ng-template #title>
+          <div class="flex justify-content-between">Programa en el Aire</div>
+        </ng-template>
+
+        <ng-template #subtitle>
+          <div class="flex justify-content-between">
+            <span>PDI</span>
+            <p-tag value="2025" />
+          </div>
+        </ng-template>
+
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam repellat
+          libero asperiores earum nam nobis, culpa ratione quam perferendis
+          esse, cupiditate neque quas!
+        </p>
+
+        <ng-template #footer>
+          <div class="flex gap-4 mt-1">
+            <p-button
+              label="Puesto: 7"
+              severity="secondary"
+              class="w-full"
+              [outlined]="true"
+              styleClass="w-full"
+            />
+            <button pButton class="w-full" styleClass="w-full">
+              <i class="pi pi-eye" pButtonIcon></i>
+              <span pButtonLabel>Ver mas</span>
+            </button>
+          </div>
+        </ng-template>
+      </p-card>
+
+      <p-card [style]="{ width: '20rem', position: 'relative' }">
+        <div class="ribbon ribbon-instructor">Instructor</div>
+        <ng-template #title>
+          <div class="flex justify-content-between">Programa en el Aire</div>
+        </ng-template>
+
+        <ng-template #subtitle>
+          <div class="flex justify-content-between">
+            <span>PDI</span>
+            <p-tag value="2025" />
+          </div>
+        </ng-template>
+
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam repellat
+          libero asperiores earum nam nobis, culpa ratione quam perferendis
+          esse, cupiditate neque quas!
+        </p>
+
+        <ng-template #footer>
+          <div class="flex gap-4 mt-1">
+            <p-button
+              label="Puesto: 7"
+              severity="secondary"
+              class="w-full"
+              [outlined]="true"
+              styleClass="w-full"
+            />
+            <button pButton class="w-full" styleClass="w-full">
+              <i class="pi pi-eye" pButtonIcon></i>
+              <span pButtonLabel>Ver mas</span>
+            </button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </p-card>
+</div>
+
+<app-modal
+  [title]="'Posionamiento en el programa'"
+  [visible]="showModal()"
+  [width]="'1350px'"
+  [showSaveButton]="false"
+  (cancel)="onCancel()"
+  [showExtraButton]="false"
+>
+  <div class="mb-4">
+    <app-table
+      [data]="historyRanking()"
+      [columns]="columnsRanking"
+      [rows]="size()"
+      [highlightedRow]="5"
+      [basicTable]="true"
+      [totalRecords]="totalRecordsRanking"
+      (actionClicked)="handleAction($event)"
+      (onPageChange)="onPageChange($event)"
+      (onFilterChange)="onFilterTable($event)"
+    ></app-table>
+  </div>
+</app-modal>

@@ -48,6 +48,17 @@ export class ModalComponent {
   /** Emite cuando el modal cambia de visibilidad */
   @Output() visibleChange = new EventEmitter<boolean>();
 
+  /** Botón extra opcional */
+  @Input() extraButtonLabel: string = '';
+  @Input() extraButtonIcon: string = '';
+  @Input() extraButtonDisabled = false;
+  @Input() extraButtonLoading = false;
+  @Input() extraButtonLoadingText = 'Procesando...';
+  @Input() showExtraButton = false;
+
+  /** Emite cuando se hace click en el botón extra */
+  @Output() extraButtonClick = new EventEmitter<void>();
+
   onHide(): void {
     this.visibleChange.emit(false);
     this.cancel.emit();
@@ -55,5 +66,9 @@ export class ModalComponent {
 
   onSave(): void {
     this.save.emit();
+  }
+
+  onExtraButtonClick() {
+    this.extraButtonClick.emit();
   }
 }

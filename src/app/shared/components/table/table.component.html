@@ -1,9 +1,12 @@
 <div
   class="grid mb-3"
-  *ngIf="showGlobalFilter || filterFields?.length || showStatusToggle"
+  *ngIf="
+    !basicTable &&
+    (showGlobalFilter || filterFields?.length || showStatusToggle)
+  "
 >
   <!-- Buscador -->
-  <div class="col-12 md:col-4" *ngIf="showGlobalFilter">
+  <div class="col-12 md:col-4" *ngIf="!basicTable && showGlobalFilter">
     <p-iconField class="w-full">
       <p-inputIcon class="pi pi-search"></p-inputIcon>
       <input
@@ -17,7 +20,10 @@
     </p-iconField>
   </div>
 
-  <div class="col-12 md:col-4 lg:col-3" *ngIf="filterFields?.length">
+  <div
+    class="col-12 md:col-4 lg:col-3"
+    *ngIf="!basicTable && filterFields?.length"
+  >
     <p-select
       [options]="filterFields"
       optionLabel="label"
@@ -29,7 +35,10 @@
   </div>
 
   <!-- Toggle para estado -->
-  <div class="col-12 md:col-4 flex align-items-center" *ngIf="showStatusToggle">
+  <div
+    class="col-12 md:col-4 flex align-items-center"
+    *ngIf="!basicTable && showStatusToggle"
+  >
     <div class="flex gap-3">
       <p-toggleswitch
         [(ngModel)]="statusFilter"
@@ -41,15 +50,16 @@
 </div>
 
 <p-table
+  class="custom-table"
   [value]="data"
-  [paginator]="true"
+  [paginator]="!basicTable"
   [rowHover]="true"
-  [rows]="rows"
+  [rows]="rows" 
   [totalRecords]="totalRecords"
-  [lazy]="true"
+  [lazy]="!basicTable"
   currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} registros."
   (onPage)="onPageChange.emit($event)"
-  [showCurrentPageReport]="true"
+  [showCurrentPageReport]="!basicTable"
   [rowsPerPageOptions]="[5, 10, 20]"
 >
   <ng-template pTemplate="header">
@@ -63,8 +73,12 @@
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-row>
-    <tr>
+  <ng-template pTemplate="body" let-row let-i="rowIndex">
+    <tr
+      [ngClass]="{
+        'highlight-row': highlightedRow && i + 1 === highlightedRow
+      }"
+    >
       <td
         *ngFor="let col of columns"
         [ngStyle]="{ 'text-align': col.align || 'left' }"

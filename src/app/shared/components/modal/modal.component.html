@@ -6,12 +6,13 @@
   [closable]="closable"
   (onHide)="onHide()"
 >
-  <!-- 🧩 Contenido dinámico -->
+  <!-- Contenido dinámico -->
   <ng-content></ng-content>
 
-  <!-- ✅ Footer opcional -->
+  <!-- Footer opcional -->
   <ng-template pTemplate="footer" *ngIf="showFooter">
-    <div class="flex justify-content-end gap-2">
+    <div class="flex justify-content-end gap-2 mt-4">
+      <!-- Botón cancelar -->
       <button
         pButton
         type="button"
@@ -20,7 +21,19 @@
         (click)="onHide()"
       ></button>
 
-      <!-- Mostrar botón Guardar solo si showSaveButton es true -->
+      <!-- Botón extra opcional -->
+      <button
+        *ngIf="showExtraButton"
+        pButton
+        type="button"
+        [label]="extraButtonLoading ? extraButtonLoadingText : extraButtonLabel"
+        [icon]="extraButtonLoading ? 'pi pi-spin pi-spinner' : extraButtonIcon"
+        [disabled]="extraButtonDisabled || extraButtonLoading"
+        severity="primary"
+        (click)="onExtraButtonClick()"
+      ></button>
+
+      <!-- Botón guardar -->
       <button
         *ngIf="showSaveButton"
         pButton

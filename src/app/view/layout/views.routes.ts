@@ -6,6 +6,8 @@ import { MissionRegisterComponent } from '../mission/mission-register/mission-re
 import { MissionGenerateComponent } from '../mission/mission-generate/mission-generate.component'; 
 import { SquadronComponent } from '../squadron/squadron.component';
 import { UnitComponent } from '../unit/unit.component';
+import { PanelHistoryComponent } from '../panel-history/panel-history.component';
+import { GroupHistoryComponent } from '../group-history/group-history.component';
 
 export default [
   { path: 'dashboard', component: DashboardComponent} ,
@@ -15,4 +17,6 @@ export default [
   { path: 'mission-generate', component: MissionGenerateComponent} ,
   { path: 'squadron', component: SquadronComponent} ,
   { path: 'unit', component: UnitComponent} ,
+  { path: 'panel-history', component: PanelHistoryComponent} ,
+  { path: 'group-history', component: GroupHistoryComponent} ,
 ] as Routes;

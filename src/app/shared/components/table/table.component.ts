@@ -35,12 +35,15 @@ export interface TableColumn {
     InputTextModule,
     InputIcon,
     IconField,
-    TooltipModule
+    TooltipModule,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })
 export class TableComponent {
+  @Input() basicTable: boolean = false;
+  @Input() highlightedRow?: number;
+
   @Input() data: any[] = [];
   @Input() columns: TableColumn[] = [];
   @Input() rows = 10;
@@ -69,4 +72,11 @@ export class TableComponent {
       status: this.statusFilter,
     });
   }
+
+  getRowClass = (rowData: any, rowIndex: number) => { 
+    if (this.highlightedRow && rowIndex + 1 === this.highlightedRow) {
+      return 'highlight-row';
+    }
+    return '';
+  };
 }

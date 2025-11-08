@@ -1,3 +1,37 @@
+/* Estilos personalizados del header */
+::ng-deep .custom-table .p-datatable-thead > tr > th {
+  background-color: #003553; /* Color del header */
+  color: #fff; /* Color del texto */
+  font-weight: 600;
+  border: none; /* Quita los bordes por defecto */
+}
+
+/* Bordes redondeados */
+::ng-deep .custom-table .p-datatable-thead > tr > th:first-child {
+  border-top-left-radius: 10px;
+}
+
+::ng-deep .custom-table .p-datatable-thead > tr > th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Opcional: redondear también la parte inferior si quieres */
+::ng-deep .custom-table .p-datatable-tbody > tr:last-child > td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+::ng-deep .custom-table .p-datatable-tbody > tr:last-child > td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+/* Quita posibles espacios entre celdas */
+::ng-deep .custom-table .p-datatable {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 10px; /* Redondea toda la tabla */
+}
+
 .chip-activo {
   background-color: #22c55e;
   color: white;
@@ -22,4 +56,8 @@
 
 .icon-view {
   color: #2196f3;
+}
+.highlight-row {
+  background-color: #ffeaa7; /* amarillo claro */
+  font-weight: bold;
 }
