@@ -6,8 +6,7 @@ import { TagModule } from 'primeng/tag';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { CardModule } from 'primeng/card';
 import { MenuItem } from 'primeng/api';
-import { Location } from '@angular/common';
-import { ScrollTop } from 'primeng/scrolltop';
+import { Location } from '@angular/common'; 
 
 @Component({
   selector: 'app-group-present-mission',
@@ -17,7 +16,7 @@ import { ScrollTop } from 'primeng/scrolltop';
     RouterModule,
     BreadcrumbModule,
     TagModule,
-    AvatarModule,ScrollTop
+    AvatarModule 
   ],
   templateUrl: './group-present-detail-mission.component.html',
   styleUrl: './group-present-detail-mission.component.css',

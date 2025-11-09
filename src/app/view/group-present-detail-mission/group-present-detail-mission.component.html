@@ -121,48 +121,33 @@
 
   <div class="mt-5">
     <h3 class="text-primary mb-3">Resultado de la búsqueda:</h3>
-    <p-card
-      [routerLink]="'/views/group-present-detail'"
-      class="text-center cursor-pointer hover:shadow-4 hover-card"
-      [style]="{
-        width: '25rem',
-        cursor: 'pointer',
-        overflow: 'hidden',
-        borderTop: '5px solid #003553'
-      }"
-    >
-      <ng-template #title>
-        <div class="flex justify-content-between">
-          <span class="text-primary font-bold">MISION: CH-1</span>
-          <p-tag severity="warn" value="En progreso" />
-        </div>
-      </ng-template>
-
-      <ng-template #subtitle>
-        <div class="flex justify-content-between">
-          <span>Aeronavegabilidad</span>
-        </div>
-      </ng-template>
-      <div class="flex gap-3 mt-2">
-        <p-card class="bg-gray-100">
-          <div class="flex flex-column align-items-center">
-            <span class="text-primary font-bold text-3xl">35</span>
-            <span class="text-color-secondary font-bold">Alumnos</span>
-          </div>
-        </p-card>
-        <p-card class="bg-gray-100">
-          <div class="flex flex-column align-items-center">
-            <span class="text-primary font-bold text-3xl">0</span>
-            <span class="text-color-secondary font-bold">Graduados</span>
-          </div>
-        </p-card>
-        <p-card class="bg-gray-100">
-          <div class="flex flex-column align-items-center">
-            <span class="text-primary font-bold text-3xl">65%</span>
-            <span class="text-color-secondary font-bold">Progreso</span>
-          </div>
-        </p-card>
+    <div class="flex gap-4">
+     <div class="w-5rem overflow-hidden border-round-sm cursor-pointer shadow-4 hover-card"> 
+      <div class="bg-gray-300 h-3rem flex justify-content-center align-items-center text-primary font-bold text-base m-0 p-0">
+        M-1
       </div>
-    </p-card>
+      <div class="bg-green-500 h-3rem flex justify-content-center align-items-center text-white font-bold text-base m-0 p-0">
+        17.8
+      </div>
+    </div>
+
+     <div class="w-5rem overflow-hidden border-round-sm cursor-pointer shadow-4 hover-card"> 
+      <div class="bg-gray-300 h-3rem flex justify-content-center align-items-center text-primary  font-bold text-base m-0 p-0">
+        M-2
+      </div>
+      <div class="bg-red-500 h-3rem flex justify-content-center align-items-center text-white font-bold text-base m-0 p-0">
+        10.8
+      </div>
+    </div>
+
+     <div class="w-5rem overflow-hidden border-round-sm cursor-pointer shadow-4 hover-card"> 
+      <div class="bg-gray-300 h-3rem flex justify-content-center align-items-center text-primary font-bold text-base m-0 p-0">
+        M-3
+      </div>
+      <div class="bg-orange-400 h-3rem flex justify-content-center align-items-center text-white font-bold text-base m-0 p-0">
+        -
+      </div>
+    </div>
+    </div> 
   </div>
 </div>
