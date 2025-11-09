@@ -29,40 +29,11 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     this.resolveSidebarVisibility();
   }
+
   private resolveSidebarVisibility(): void {
-    // const role = this.getRole();
-    const role: string = 'DIRECTOR';
+    const role = localStorage.getItem('userRole');
     this.showSidebar = role === 'ADMIN';
   }
-
-  // private getRole(): string | null {
-  //   // 1) si el AuthService expone getRole()
-  //   if (this.authService && typeof this.authService.getRole === 'function') {
-  //     try {
-  //       return this.authService.getRole();
-  //     } catch {
-  //       /* ignore */
-  //     }
-  //   }
-
-  //   // 2) intentar leer un objeto 'user' en localStorage
-  //   try {
-  //     const userJson = localStorage.getItem('user');
-  //     if (userJson) {
-  //       const user = JSON.parse(userJson);
-  //       if (user && (user.role || user.roles)) {
-  //         return (
-  //           user.role || (Array.isArray(user.roles) ? user.roles[0] : null)
-  //         );
-  //       }
-  //     }
-  //   } catch {
-  //     /* ignore parse errors */
-  //   }
-
-  //   // 3) fallback: valor simple 'role' en localStorage
-  //   return localStorage.getItem('role');
-  // }
 
   @HostListener('window:resize')
   onResize() {

@@ -1,55 +1,59 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+interface User {
+  email: string;
+  password: string;
+  role: 'ADMIN' | 'DIRECTOR' | 'USER';
+}
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [
+    ReactiveFormsModule
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
- loginForm: FormGroup;
+  loginForm: FormGroup;
   loading = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    // private authService: AuthService,
-    // private toastService: ToastService
-  ) {
+  users: User[] = [
+    { email: 'admin@emeal.com', password: '123456', role: 'ADMIN' },
+    { email: 'director@emeal.com', password: '123456', role: 'DIRECTOR' },
+    { email: 'user@emeal.com', password: '123456', role: 'USER' },
+  ];
+
+  constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false]
+      rememberMe: [false],
     });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.loading = true;
-      
       const { email, password } = this.loginForm.value;
-      
-      // this.authService.login(email, password).subscribe({
-      //   next: (response) => {
-      //     this.toastService.show('success', '¡Inicio de sesión exitoso!', 'Redirigiendo al panel principal...');
-          
-      //     setTimeout(() => {
-      //       this.loading = false;
-            this.router.navigate(['/dashboard']);
-      //     }, 2000);
-      //   },
-      //   error: (error) => {
-      //     this.loading = false;
-      //     this.toastService.show('error', 'Error en el inicio de sesión', 'Credenciales incorrectas. Inténtalo de nuevo.');
-      //   }
-      // });
+
+      const user = this.users.find(
+        (u) => u.email === email && u.password === password
+      );
+
+      if (user) {
+        localStorage.setItem('userRole', user.role);
+        console.log("redirihir")
+        this.router.navigate(['views/dashboard']);
+      } else {
+        alert('Credenciales incorrectas');
+      }
     }
   }
 
   onSignup() {
-    alert('Funcionalidad de registro próximamente...')
+    alert('Funcionalidad de registro próximamente...');
     // this.toastService.show('info', 'Registro', 'Funcionalidad de registro próximamente...');
   }
 }

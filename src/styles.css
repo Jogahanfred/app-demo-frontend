@@ -12,6 +12,14 @@ body {
   overflow-x: hidden;
 }
 
+/* ==================== HOVER CARD ==================== */
+.hover-card {
+  transition: transform 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: scale(1.05);
+}
 /* ==================== LOGIN PAGE STYLES ==================== */
 .login-page {
   min-height: 100vh;

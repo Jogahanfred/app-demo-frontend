@@ -7,7 +7,7 @@
             <i class="pi pi-box"></i>
           </div>
           <span class="login-logo-text">
-            <img src="/assets/images/logo.png" alt="logo" class="logo-login"> 
+            <img src="/assets/images/logo.png" alt="logo" class="logo-login" />
           </span>
         </div>
       </div>
@@ -32,12 +32,13 @@
         <p class="form-subtitle">Ingresa tus credenciales para continuar</p>
       </div>
 
-      <form id="loginForm" onsubmit="handleLogin(event)">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label class="form-label">Email address:</label>
           <input
             type="email"
             class="form-input"
+            formControlName="email"
             placeholder="amarcosl@emeal.com"
             required
           />
@@ -48,6 +49,7 @@
           <input
             type="password"
             class="form-input"
+            formControlName="password"
             placeholder="••••••••••••"
             required
           />

@@ -1,14 +1,14 @@
 <div class="animate__animated animate__fadeIn">
   <p-card class="mb-3">
-    <div class="flex align-items-center">
+    <div class="flex align-items-center justify-content-between">
+      <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
       <app-button
-        [routerLink]="'/views/panel-history'"
+        (clicked)="goBack()"
         label="Volver"
         icon="pi pi-arrow-left"
         severity="primary"
       ></app-button>
 
-      <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
     </div>
   </p-card>
   <p-card class="mb-3 shadow-2">

@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { RouterModule } from '@angular/router';
+import { Location } from '@angular/common';
 
 import {
   TableColumn,
@@ -47,6 +48,7 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
   styleUrl: './group-history.component.css',
 })
 export class GroupHistoryComponent implements OnInit {
+  constructor(private location: Location) {}
   // breadcrumb
   items: MenuItem[] = [
     { label: 'Panel Director' },
@@ -304,5 +306,8 @@ export class GroupHistoryComponent implements OnInit {
   onFilterTable(e: any) {}
   onCancel(): void {
     this.showModal.set(false);
+  }
+  goBack() {
+    this.location.back();
   }
 }

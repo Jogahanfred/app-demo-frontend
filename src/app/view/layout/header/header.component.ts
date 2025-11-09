@@ -4,7 +4,7 @@ import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-header',
-  imports: [ 
+  imports: [  
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'

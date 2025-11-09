@@ -1,0 +1,93 @@
+<div class="animate__animated animate__fadeIn">
+  <p-card class="mb-3">
+    <div class="flex align-items-center justify-content-between">
+      <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+      <app-button
+        (clicked)="goBack()"
+        label="Volver"
+        icon="pi pi-arrow-left"
+        severity="primary"
+      ></app-button>
+    </div>
+  </p-card>
+  <div class="p-4">
+    <h1 class="text-primary font-bold">PROMOCIÓN HALCONES 2025-A</h1>
+    <span class="block text-color-secondary font-medium pt-1">
+      35 Participantes
+    </span>
+  </div>
+  <div class="flex gap-4 mb-3 flex-wrap">
+    <p-card
+      [routerLink]="'/views/group-present-detail/mission'"
+      class="text-center cursor-pointer hover:shadow-4 hover-card"
+      [style]="{
+        width: '18rem',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        borderTop: '5px solid #003553'
+      }"
+    >
+      <ng-template #title>
+        <p-avatar
+          [image]="'assets/images/perfil.jpg'"
+          class="w-8rem h-8rem border-3 border-primary"
+          [shape]="'circle'"
+        />
+      </ng-template>
+
+      <ng-template #subtitle>
+        <div class="flex flex-column">
+          <span class="text-primary font-bold">JUAN LARA OVIEDO ROSAS</span>
+          <span>
+            <p-tag severity="info" value="CAPITÁN" />
+          </span>
+        </div>
+      </ng-template>
+
+      <div class="flex flex-column">
+        <div class="flex mt-2 gap-3 justify-content-center w-full">
+          <div class="bg-gray-100 p-3 border-round-xs shadow-1 flex-1">
+            <div
+              class="flex flex-column align-items-start justify-content-center"
+            >
+              <span class="text-sm text-color-secondary font-bold">Código</span>
+              <span class="text-sm text-primary font-bold">P-25465</span>
+            </div>
+          </div>
+          <div class="bg-gray-100 p-3 border-round-xs shadow-1 flex-1">
+            <div
+              class="flex flex-column align-items-start justify-content-center"
+            >
+              <span class="text-sm text-color-secondary font-bold">NSA</span>
+              <span class="text-sm text-primary font-bold">O-878787</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex mt-3 gap-3 justify-content-center w-full">
+          <div class="bg-gray-100 p-3 border-round-xs shadow-1 flex-1">
+            <div
+              class="flex flex-column align-items-start justify-content-center"
+            >
+              <span class="text-sm text-color-secondary font-bold"
+                >Especialidad</span
+              >
+              <span class="text-sm text-primary font-bold">Piloto</span>
+            </div>
+          </div>
+          <div class="bg-gray-100 p-3 border-round-xs shadow-1 flex-1">
+            <div
+              class="flex flex-column align-items-start justify-content-center"
+            >
+              <span class="text-sm text-color-secondary font-bold"
+                >Promedio</span
+              >
+              <span class="text-sm text-primary font-bold">16.5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+ 

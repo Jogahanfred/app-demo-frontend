@@ -1,0 +1,116 @@
+<div class="animate__animated animate__fadeIn">
+  <p-card class="mb-3">
+    <div class="flex align-items-center justify-content-between">
+      <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+      <app-button
+        (clicked)="goBack()"
+        label="Volver"
+        icon="pi pi-arrow-left"
+        severity="primary"
+      ></app-button>
+
+    </div>
+  </p-card>
+  <div class="p-4">
+    <h1 class="text-primary font-bold">PROGRAMA PDI</h1>
+    <span class="block text-color-secondary font-medium pt-1">
+      Promociones y Alumnos por Año
+    </span>
+  </div>
+  <p-card class="mb-3">
+    <div class="flex align-items-center gap-3">
+      <span class="text-primary font-bold">Filtrar por Año:</span>
+      <app-button [label]="'2025'"></app-button>
+      <app-button [label]="'2024'"></app-button>
+      <app-button [label]="'2023'"></app-button>
+      <app-button [label]="'2022'"></app-button>
+    </div>
+  </p-card>
+  <div class="flex gap-4 mb-3 flex-wrap">
+    <p-card
+      [routerLink]="'/views/group-present-detail'"
+      class="text-center cursor-pointer hover:shadow-4 hover-card"
+      [style]="{
+        width: '25rem',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        borderTop: '5px solid #003553'
+      }"
+    >
+      <ng-template #title>
+        <div class="flex justify-content-between">
+          <span class="text-primary font-bold">Promoción Halcones</span>
+          <p-tag severity="warn" value="En progreso" />
+        </div>
+      </ng-template>
+
+      <ng-template #subtitle>
+        <div class="flex justify-content-between">
+          <span>2025-B</span>
+        </div>
+      </ng-template>
+      <div class="flex gap-3 mt-2">
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">35</span>
+            <span class="text-color-secondary font-bold">Alumnos</span>
+          </div>
+        </p-card>
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">0</span>
+            <span class="text-color-secondary font-bold">Graduados</span>
+          </div>
+        </p-card>
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">65%</span>
+            <span class="text-color-secondary font-bold">Progreso</span>
+          </div>
+        </p-card>
+      </div>
+    </p-card>
+    <p-card
+      class="text-center cursor-pointer hover:shadow-4 hover-card"
+      [style]="{
+        width: '25rem',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        borderTop: '5px solid #003553'
+      }"
+    >
+      <ng-template #title>
+        <div class="flex justify-content-between">
+          <span class="text-primary font-bold">Promoción Águilas</span>
+          <p-tag severity="success" value="Culminado" />
+        </div>
+      </ng-template>
+
+      <ng-template #subtitle>
+        <div class="flex justify-content-between">
+          <span>2025-A</span>
+        </div>
+      </ng-template>
+      <div class="flex gap-3 mt-2">
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">28</span>
+            <span class="text-color-secondary font-bold">Alumnos</span>
+          </div>
+        </p-card>
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">13</span>
+            <span class="text-color-secondary font-bold">Graduados</span>
+          </div>
+        </p-card>
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">100%</span>
+            <span class="text-color-secondary font-bold">Progreso</span>
+          </div>
+        </p-card>
+      </div>
+    </p-card>
+  </div>
+</div>

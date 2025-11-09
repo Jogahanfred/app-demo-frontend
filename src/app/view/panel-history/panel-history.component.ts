@@ -14,10 +14,10 @@ import { InputIcon } from 'primeng/inputicon';
     CommonModule,
     CardModule,
     SpinnerComponent,
-    ModalComponent, 
-    InputTextModule, 
+    ModalComponent,
+    InputTextModule,
     IconFieldModule,
-    InputFieldComponent
+    InputFieldComponent,
   ],
   templateUrl: './panel-history.component.html',
   styleUrl: './panel-history.component.css',
@@ -40,6 +40,7 @@ export class PanelHistoryComponent {
     }
 
     if (item === 'PDI') {
+      this.router.navigate(['views/group-present']);
       return;
     }
   }

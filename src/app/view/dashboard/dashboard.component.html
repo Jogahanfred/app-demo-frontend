@@ -1,110 +1,16 @@
-<div class="content-wrapper" id="contentWrapper">
-  <div class="page-header">
-    <h1 class="page-title">Dashboard</h1>
-    <div class="breadcrumb">Inicio / Dashboard</div>
+<div class="animate__animated animate__fadeIn"> 
+  <div class="p-4">
+    <h1 class="text-primary font-bold">PANEL PRINCIPAL</h1>
+    <span class="block text-color-secondary font-medium pt-1">
+      Dashboard y metricas del sistema
+    </span>
   </div>
- <button pButton type="button" icon="fa fa-plane" label="Volar"></button>
-<i class="fa fa-plane"></i>
-<p-button label="Check" (click)="click()"/>
-<p-button (click)="showDialog()" label="Show" />
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-header">
-        <div
-          class="stat-icon"
-          style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-        >
-          <i class="pi pi-users"></i>
-        </div>
-      </div>
-      <div class="stat-value">1,234</div>
-      <div class="stat-label">Total Usuarios</div>
+  <p-card class="mb-3">
+    <div class="flex align-items-center gap-3">
+      <app-button [label]="'Panel Director'" [routerLink]="'/views/panel-history'"></app-button>
+      <app-button [label]="'2024'"></app-button>
+      <app-button [label]="'2023'"></app-button>
+      <app-button [label]="'2022'"></app-button>
     </div>
-
-    <div class="stat-card">
-      <div class="stat-header">
-        <div
-          class="stat-icon"
-          style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
-        >
-          <i class="pi pi-chart-line"></i>
-        </div>
-      </div>
-      <div class="stat-value">892</div>
-      <div class="stat-label">Usuarios Activos</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-header">
-        <div
-          class="stat-icon"
-          style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-        >
-          <i class="pi pi-file"></i>
-        </div>
-      </div>
-      <div class="stat-value">45</div>
-      <div class="stat-label">Reportes</div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-header">
-        <div
-          class="stat-icon"
-          style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
-        >
-          <i class="pi pi-star"></i>
-        </div>
-      </div>
-      <div class="stat-value">4.8</div>
-      <div class="stat-label">Calificación</div>
-    </div>
-  </div>
-
-  <div class="content-card">
-    <h2>Bienvenido al Sistema</h2>
-    <p style="color: #64748b; line-height: 1.8; margin-bottom: 1rem">
-      Este es un sistema completo con login integrado y navegación fluida entre
-      páginas.
-    </p>
-    <p style="color: #64748b; line-height: 1.8">
-      Puedes navegar por las diferentes secciones usando el menú lateral, y
-      cerrar sesión cuando lo desees para volver a la pantalla de login.
-    </p>
-  </div>
-
-  <div class="content-card">
-    <h2>Funcionalidades Implementadas</h2>
-    <ul style="color: #64748b; line-height: 2; margin-left: 1.5rem">
-      <li>✅ Pantalla de login integrada</li>
-      <li>✅ Toast de notificación al iniciar sesión</li>
-      <li>✅ Sidebar desplegable con overlay</li>
-      <li>✅ Navbar con logo y usuario</li>
-      <li>✅ Dropdown con opciones de usuario</li>
-      <li>✅ Footer reutilizable</li>
-      <li>✅ Loader entre pantallas</li>
-      <li>✅ Navegación fluida entre páginas</li>
-      <li>✅ Responsive y mobile-friendly</li>
-      <li>✅ Cierre de sesión funcional</li>
-    </ul>
-  </div>
+  </p-card> 
 </div>
-<div class="card flex justify-center">
-    <p-button (click)="showDialog()" label="Show" />
-    <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-        <span class="p-text-secondary block mb-8">Update your information.</span>
-        <div class="flex items-center gap-4 mb-4">
-            <label for="username" class="font-semibold w-24">Username</label>
-            <input pInputText id="username" class="flex-auto" autocomplete="off" />
-        </div>
-        <div class="flex items-center gap-4 mb-8">
-            <label for="email" class="font-semibold w-24">Email</label>
-            <input pInputText id="email" class="flex-auto" autocomplete="off" />
-        </div>
-        <div class="flex justify-end gap-2">
-            <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-            <p-button label="Save" (click)="visible = false" />
-        </div>
-    </p-dialog>
-</div>
-<p-toast/>

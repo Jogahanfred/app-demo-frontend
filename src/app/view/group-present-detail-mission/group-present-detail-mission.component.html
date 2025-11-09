@@ -1,0 +1,110 @@
+<div class="animate__animated animate__fadeIn">
+  <p-card class="mb-3">
+    <div class="flex align-items-center justify-content-between">
+      <p-breadcrumb [model]="items" [home]="home"></p-breadcrumb>
+      <app-button
+        (clicked)="goBack()"
+        label="Volver"
+        icon="pi pi-arrow-left"
+        severity="primary"
+      ></app-button>
+    </div>
+  </p-card>
+  <div class="p-4">
+    <h1 class="text-primary font-bold">PROGRAMAS</h1>
+    <span class="block text-color-secondary font-medium pt-1">
+      Tienes 3 programas en curso
+    </span>
+  </div>
+  <p-card class="mb-3">
+    <div class="flex justify-content-between align-items-center">
+      <div class="flex align-items-center gap-3">
+        <span class="text-primary font-bold">Cursando:</span>
+        <app-button
+          [label]="'Programa en el aire'"
+          severity="secondary"
+        ></app-button>
+        <app-button [label]="'Programa en tierra'"></app-button>
+      </div>
+      <div class="flex align-items-center gap-3">
+        <div class="flex align-items-center gap-2">
+          <span class="text-primary font-bold">Alumno:</span>
+          <p-tag
+            value="CAP FAP ANDERSSON YOUSSEF MARCOS LEGUA"
+            severity="info"
+          />
+        </div>
+        <p-avatar
+          [image]="'assets/images/perfil.jpg'"
+          class="w-3rem h-3rem border-3 border-primary"
+          [shape]="'circle'"
+        />
+      </div>
+    </div>
+  </p-card>
+  <div class="ml-4">
+    <div class="card flex flex-col items-center">
+      <p>Scroll down the page to display the ScrollTo component.</p>
+      <i
+        class="pi pi-angle-down animate-fadeout animate-duration-1000 animate-infinite"
+        style="fontsize: 2rem"
+      ></i>
+      <p-scrolltop [threshold]="100"/>
+    </div>
+    <div class="flex justify-content-between align-items-center">
+      <div class="flex align-items-center gap-3">
+        <span class="text-primary font-bold">Fases:</span>
+        <app-button
+          [label]="'Programa en el aire'"
+          severity="secondary"
+        ></app-button>
+        <app-button [label]="'Programa en tierra'"></app-button>
+      </div>
+    </div>
+  </div>
+  <div class="mt-2">
+    <p-card
+      [routerLink]="'/views/group-present-detail'"
+      class="text-center cursor-pointer hover:shadow-4 hover-card"
+      [style]="{
+        width: '25rem',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        borderTop: '5px solid #003553'
+      }"
+    >
+      <ng-template #title>
+        <div class="flex justify-content-between">
+          <span class="text-primary font-bold">Promoción Halcones</span>
+          <p-tag severity="warn" value="En progreso" />
+        </div>
+      </ng-template>
+
+      <ng-template #subtitle>
+        <div class="flex justify-content-between">
+          <span>2025-B</span>
+        </div>
+      </ng-template>
+      <div class="flex gap-3 mt-2">
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">35</span>
+            <span class="text-color-secondary font-bold">Alumnos</span>
+          </div>
+        </p-card>
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">0</span>
+            <span class="text-color-secondary font-bold">Graduados</span>
+          </div>
+        </p-card>
+        <p-card class="bg-gray-100">
+          <div class="flex flex-column align-items-center">
+            <span class="text-primary font-bold text-3xl">65%</span>
+            <span class="text-color-secondary font-bold">Progreso</span>
+          </div>
+        </p-card>
+      </div>
+    </p-card>
+  </div>
+</div>

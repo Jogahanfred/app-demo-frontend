@@ -11,7 +11,7 @@
     <div class="col-12 md:col-4" *ngFor="let quick of ['PDI', 'PDE']">
       <p-card
         (click)="selectProgram(quick)"
-        class="text-center cursor-pointer hover:shadow-4 transition-all transition-duration-300"
+        class="text-center cursor-pointer hover:shadow-4 hover-card"
       >
         <ng-template pTemplate="title">
           <div>
@@ -78,41 +78,4 @@
       placeholder="NSA: 611298"
     ></app-input-field>
   </div>
- 
 </app-modal>
-
-<!-- 
-<app-modal
-  [title]="'Buscar persona'"
-  [visible]="showModal()"
-  [width]="'750px'"
-  [showSaveButton]="false"
-  (cancel)="onCancel()"
-  [showExtraButton]="true"
-  extraButtonLabel="Buscar"
-  extraButtonIcon="pi pi-search"
-  [extraButtonLoading]="isSearch()"
-  extraButtonLoadingText="Buscando..."
-  (extraButtonClick)="handleSearch()"
->
-  <span class="block text-center my-2">
-    <i class="pi pi-graduation-cap text-primary" style="font-size: 8rem"></i>
-  </span>
-  <div class="flex flex-column align-items-center mb-2">
-    <h1 class="text-primary font-bold text-4xl">Búsqueda de Legajo (PDE)</h1>
-    <p class="text-center text-xl text-color-secondary mt-1 mb-4">
-      Ingrese el identificador único **NSA** para consultar el historial
-      completo y detallado del participante.
-    </p>
-
-    <p-iconfield>
-      <p-inputicon class="pi pi-search" style="font-size: x-large;" />
-      <input
-        type="text"
-        pInputText
-        [placeholder]="'Ejm: 611298'"
-        style="font-size: xx-large"
-      />
-    </p-iconfield> 
-  </div> 
-</app-modal>  -->
