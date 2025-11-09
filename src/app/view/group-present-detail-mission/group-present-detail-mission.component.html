@@ -42,27 +42,85 @@
       </div>
     </div>
   </p-card>
-  <div class="ml-4">
-    <div class="card flex flex-col items-center">
-      <p>Scroll down the page to display the ScrollTo component.</p>
-      <i
-        class="pi pi-angle-down animate-fadeout animate-duration-1000 animate-infinite"
-        style="fontsize: 2rem"
-      ></i>
-      <p-scrolltop [threshold]="100"/>
-    </div>
-    <div class="flex justify-content-between align-items-center">
-      <div class="flex align-items-center gap-3">
-        <span class="text-primary font-bold">Fases:</span>
-        <app-button
-          [label]="'Programa en el aire'"
-          severity="secondary"
-        ></app-button>
-        <app-button [label]="'Programa en tierra'"></app-button>
+  <div class="flex mt-6">
+    <p-card class="flex flex-column p-3 border-round">
+      <h3 class="text-primary">Guía de Uso</h3>
+      <p>
+        1. Selecciona la fase o subfase para ver las misiones asociadas.<br />
+        2. Los botones en gris indican subfases ya completadas.<br />
+        3. Las misiones activas aparecerán en la parte inferior.<br />
+        4. Usa los filtros para ver misiones por piloto o fecha.
+      </p>
+    </p-card>
+    <div class="flex gap-4 ml-6 align-items-start">
+      <div>
+        <div class="mb-3">
+          <span class="text-primary font-bold">Fases:</span>
+        </div>
+        <div class="flex flex-column gap-2">
+          <app-button [label]="'Adaptación'" severity="secondary"></app-button>
+          <app-button [label]="'Operaciones Navegabilidad'"></app-button>
+          <app-button
+            [label]="'Operaciones Helitransportada'"
+            severity="secondary"
+          ></app-button>
+        </div>
+      </div>
+
+      <div class="flex flex-column self-center">
+        <i class="text-primary pi pi-angle-right" style="font-size: 2rem"></i>
+      </div>
+
+      <div class="">
+        <div class="mb-3">
+          <span class="text-primary font-bold">Fases:</span>
+        </div>
+        <div class="flex flex-column gap-2">
+          <app-button
+            [label]="'Adaptación / Familiarización'"
+            severity="secondary"
+          ></app-button>
+          <app-button
+            [label]="'Operaciones de Navegabilidad'"
+            severity="secondary"
+          ></app-button>
+          <app-button
+            [label]="'Operaciones Helitransportadas / Avanzadas'"
+            severity="secondary"
+          ></app-button>
+          <app-button [label]="'Programa en tierra'"></app-button>
+          <app-button
+            [label]="'Operaciones en terreno'"
+            severity="secondary"
+          ></app-button>
+        </div>
+      </div>
+
+      <div class="flex flex-column self-center">
+        <i class="text-primary pi pi-angle-right" style="font-size: 2rem"></i>
+      </div>
+
+      <div>
+        <div class="mb-3">
+          <span class="text-primary font-bold">Sub Fases:</span>
+        </div>
+        <div class="flex flex-column gap-2">
+          <app-button
+            [label]="'Operaciones tácticas'"
+            severity="secondary"
+          ></app-button>
+          <app-button [label]="'Navegación avanzada'"></app-button>
+          <app-button
+            [label]="'Vuelo supervisado solo'"
+            severity="secondary"
+          ></app-button>
+        </div>
       </div>
     </div>
   </div>
-  <div class="mt-2">
+
+  <div class="mt-5">
+    <h3 class="text-primary mb-3">Resultado de la búsqueda:</h3>
     <p-card
       [routerLink]="'/views/group-present-detail'"
       class="text-center cursor-pointer hover:shadow-4 hover-card"
@@ -75,14 +133,14 @@
     >
       <ng-template #title>
         <div class="flex justify-content-between">
-          <span class="text-primary font-bold">Promoción Halcones</span>
+          <span class="text-primary font-bold">MISION: CH-1</span>
           <p-tag severity="warn" value="En progreso" />
         </div>
       </ng-template>
 
       <ng-template #subtitle>
         <div class="flex justify-content-between">
-          <span>2025-B</span>
+          <span>Aeronavegabilidad</span>
         </div>
       </ng-template>
       <div class="flex gap-3 mt-2">
